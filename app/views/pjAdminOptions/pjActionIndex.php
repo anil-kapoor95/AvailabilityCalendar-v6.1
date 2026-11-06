@@ -48,6 +48,10 @@ if (isset($tpl['status']))
 		<?php
 	}
 	include PJ_VIEWS_PATH . 'pjAdminOptions/elements/tab.php';
+	if (isset($_GET['tab']) && (int) $_GET['tab'] === 2)
+	{
+		include PJ_VIEWS_PATH . 'pjAdminOptions/elements/modern_panel.php';
+	}
 	?>
 	<script type="text/javascript">
 	var myLabel = myLabel || {};

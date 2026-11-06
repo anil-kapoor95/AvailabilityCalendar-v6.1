@@ -99,7 +99,7 @@ if (isset($tpl['arr']) && !empty($tpl['arr']))
 	    	    	$class = pjUtil::getClass($date_arr, date('Y-m-d',$timestamp), date('Y-m-d',$tomorrow), date('Y-m-d',$yesterday), $haystack);
 	    	    	if (!is_null($class) && array_key_exists($class, $imageMap))
 	    	    	{
-	    	    		?><span class="abCal-imgOuter"><span class="abCal-imgWrap"><img class="abCal-img" src="<?php echo $imageMap[$class]; ?>?rand=<?php echo $rand; ?>" alt="" /></span></span><?php
+	    	    		?><span class="abCal-imgOuter <?php echo $class; ?>"><span class="abCal-imgWrap"><img class="abCal-img" src="<?php echo $imageMap[$class]; ?>?rand=<?php echo $rand; ?>" alt="" /></span></span><?php
 	    	    	} else {
 	    	    		?><span class="<?php echo $class; ?>">&nbsp;</span><?php
 	    	    		

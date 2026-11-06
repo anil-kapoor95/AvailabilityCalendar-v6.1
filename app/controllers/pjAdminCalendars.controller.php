@@ -349,6 +349,10 @@ class pjAdminCalendars extends pjAdmin
 			{
 				$this->appendCss('index.php?controller=pjAdminCalendars&action=pjActionLoadCss&cid=' . $calendar['id'], PJ_INSTALL_URL, true);
 			}
+			if ($this->getModernOptions() !== NULL)
+			{
+				$this->appendCss('index.php?controller=pjAdminCalendars&action=pjActionLoadModernCss', PJ_INSTALL_URL, true);
+			}
 			$this->appendJs('perfect-scrollbar.jquery.js', PJ_THIRD_PARTY_PATH . 'perfect_scrollbar/js/');
 			$this->appendCss('perfect-scrollbar.min.css', PJ_THIRD_PARTY_PATH . 'perfect_scrollbar/css/');
 			$this->appendJs('pjAdminCalendars.js');
@@ -389,6 +393,38 @@ class pjAdminCalendars extends pjAdmin
 			);
 		}
 		return $arr;
+	}
+	
+	/**
+	 * Modern design: options of the first calendar that uses it (NULL when every calendar uses Classic).
+	 * The administration "Availability" overview takes its look from that calendar.
+	 */
+	public function getModernOptions()
+	{
+		$row = pjOptionModel::factory()
+			->where('t1.key', 'o_theme')
+			->where('t1.value', 'classic|modern::modern')
+			->orderBy('t1.foreign_id ASC')
+			->limit(1)
+			->findAll()
+			->getDataIndex(0);
+		if (empty($row))
+		{
+			return NULL;
+		}
+		return pjOptionModel::factory()->getPairs($row['foreign_id']);
+	}
+	
+	public function pjActionLoadModernCss()
+	{
+		header("Content-Type: text/css; charset=utf-8");
+		$option_arr = $this->getModernOptions();
+		if ($option_arr !== NULL)
+		{
+			echo pjAppController::getModernFontsImport(pjAppController::getModernSettings(isset($option_arr['o_modern_colors']) ? $option_arr['o_modern_colors'] : ''));
+			echo pjAppController::getModernCss($option_arr, '.cal-container.modern-admin', 'modern.admin.css');
+		}
+		exit;
 	}
 	
 	public function pjActionLoadCss()

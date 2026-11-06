@@ -191,6 +191,51 @@ class pjAdminOptions extends pjAdmin
 		$this->setLayout('pjActionEmpty');
 	}
 	
+	public function pjActionSaveModern()
+	{
+		$this->setAjax(true);
+		
+		if (!$this->isXHR() || !$this->isLoged())
+		{
+			pjAppController::jsonResponse(array('status' => 'ERR', 'code' => 100));
+		}
+		if (!($this->isAdmin() || $this->isEditor() || ($this->isOwner() && $this->getUserId() == $this->getForeignId())))
+		{
+			pjAppController::jsonResponse(array('status' => 'ERR', 'code' => 101));
+		}
+		
+		$json = '';
+		if (!isset($_POST['reset']) && isset($_POST['settings']) && is_string($_POST['settings']))
+		{
+			$settings = pjAppController::getModernSettings($_POST['settings']);
+			if (!empty($settings))
+			{
+				$json = json_encode($settings);
+			}
+		}
+		
+		$pjOptionModel = pjOptionModel::factory();
+		$exists = $pjOptionModel->where('foreign_id', $this->getForeignId())->where('`key`', 'o_modern_colors')->findCount()->getData();
+		if ((int) $exists > 0)
+		{
+			$pjOptionModel->reset()->where('foreign_id', $this->getForeignId())->where('`key`', 'o_modern_colors')->limit(1)->modifyAll(array('value' => $json));
+		} else {
+			$pjOptionModel->reset()->setAttributes(array(
+				'foreign_id' => $this->getForeignId(),
+				'key' => 'o_modern_colors',
+				'tab_id' => 2,
+				'value' => $json,
+				'label' => '',
+				'type' => 'string',
+				'order' => 0,
+				'is_visible' => 0,
+				'style' => ''
+			))->insert();
+		}
+		
+		pjAppController::jsonResponse(array('status' => 'OK', 'code' => 200));
+	}
+	
 	public function pjActionUpdate()
 	{
 		$this->checkLogin();

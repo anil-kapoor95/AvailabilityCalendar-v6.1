@@ -1,0 +1,152 @@
+@CHARSET "UTF-8";
+/* ==========================================================================
+   Availability Calendar - Modern, administration "Availability" overview.
+   Same --modern-* variables as modern.css. "[calendarContainer]" is replaced with .cal-container.modern-admin
+   Keeps the original cell geometry (43px cells, 46px rows), so the scrolling and widths keep working.
+   ========================================================================== */
+[calendarContainer]{
+	--modern-page:#fbf0ea; --modern-card:#ffffff; --modern-soft:#f4dccf; --modern-line:#f1e0d8; --modern-accent:#e8836b;
+	--modern-heading:#4a2a22; --modern-body:#674c45; --modern-muted:#7d6660; --modern-link:#ae3c22;
+	--modern-btn:#c94e33; --modern-btn-text:#ffffff; --modern-btn-hover:#b73f24; --modern-btn2:#ffffff; --modern-btn2-text:#ae3c22;
+	--modern-free:#dcefe6; --modern-free-text:#256a50;
+	--modern-booked:#f3cfc4; --modern-booked-text:#a53a22;
+	--modern-pending:#fbe5b5; --modern-pending-text:#8a5a00;
+	--modern-past:#f6f0ec; --modern-past-text:#b8a8a1;
+	--modern-font-head:'Poppins',system-ui,sans-serif; --modern-font-body:'Poppins',system-ui,sans-serif; --modern-fs:14px;
+	--modern-r:18px; --modern-rb:12px; --modern-ri:10px; --modern-cell:12px;
+	--modern-shadow:0 10px 30px color-mix(in srgb, var(--modern-heading) 10%, transparent);
+
+
+	box-sizing: border-box;
+	background: var(--modern-page);
+	border-radius: var(--modern-r);
+	padding: 12px 12px 6px;
+	color: var(--modern-body);
+	font: normal var(--modern-fs)/1.45 var(--modern-font-body);
+}
+[calendarContainer] .cal-calendars,
+[calendarContainer] .cal-dates{
+	box-sizing: border-box;
+}
+[calendarContainer] .cal-title,
+[calendarContainer] .cal-head,
+[calendarContainer] .cal-program{
+	box-sizing: content-box;
+}
+[calendarContainer] .cal-calendars,
+[calendarContainer] .cal-dates{
+	background: var(--modern-card);
+}
+[calendarContainer] .cal-calendars{
+	border-radius: var(--modern-r) 0 0 var(--modern-r);
+	padding: 12px 0 0 10px;
+	width: 222px;
+}
+[calendarContainer] .cal-dates{
+	border-radius: 0 var(--modern-r) var(--modern-r) 0;
+	padding: 12px 10px 0 0;
+	width: calc(100% - 222px);
+}
+[calendarContainer] .cal-title,
+[calendarContainer] .cal-head,
+[calendarContainer] .cal-program{
+	border-bottom: 1px solid var(--modern-line);
+}
+[calendarContainer] .cal-title{ color: var(--modern-heading); font-weight: 600; }
+[calendarContainer] .cal-title a:link,
+[calendarContainer] .cal-title a:visited,
+[calendarContainer] .cal-title a:active{
+	color: var(--modern-link);
+	font-weight: 600;
+	text-decoration: none;
+}
+[calendarContainer] .cal-title a:hover{ text-decoration: underline; }
+
+/* header: month name with round-ish prev/next links, then the day chips */
+[calendarContainer] .cal-head-row span{
+	background: transparent;
+	border: 0;
+	color: var(--modern-muted);
+	font-weight: 600;
+	font-size: calc(var(--modern-fs) * 0.8);
+}
+[calendarContainer] .cal-head-row:first-child span{
+	color: var(--modern-heading);
+	font-family: var(--modern-font-head);
+	font-size: calc(var(--modern-fs) * 1.15);
+	font-weight: 700;
+}
+[calendarContainer] .cal-head-row:first-child + .cal-head-row span{
+	background: var(--modern-soft);
+	color: var(--modern-heading);
+	border-radius: calc(var(--modern-cell) * 0.5);
+}
+[calendarContainer] .cal-prev,
+[calendarContainer] .cal-next{
+	background: var(--modern-btn2);
+	border-radius: var(--modern-rb);
+	box-shadow: 0 2px 8px color-mix(in srgb, var(--modern-heading) 14%, transparent);
+	color: var(--modern-btn2-text);
+	font-size: calc(var(--modern-fs) * 0.85);
+	font-weight: 600;
+	line-height: 22px;
+	margin-top: 3px;
+	padding: 0 12px;
+}
+[calendarContainer] .cal-head-row .cal-prev:link,
+[calendarContainer] .cal-head-row .cal-prev:visited,
+[calendarContainer] .cal-head-row .cal-next:link,
+[calendarContainer] .cal-head-row .cal-next:visited{
+	color: var(--modern-btn2-text);
+	text-decoration: none;
+}
+[calendarContainer] .cal-prev:hover,
+[calendarContainer] .cal-next:hover{ background: var(--modern-soft); }
+
+/* day cells: rounded blocks separated by a thin card-coloured gap */
+[calendarContainer] .cal-program a:link,
+[calendarContainer] .cal-program a:visited,
+[calendarContainer] .cal-program a:active,
+[calendarContainer] .cal-program a:hover{
+	background-color: var(--modern-free);
+	background-image: none;
+	border-radius: calc(var(--modern-cell) * 0.5);
+	box-shadow: inset 0 0 0 2px var(--modern-card);
+	color: var(--modern-free-text);
+	cursor: pointer;
+}
+[calendarContainer] .cal-program a:hover{ box-shadow: inset 0 0 0 2px var(--modern-card), inset 0 0 0 4px var(--modern-accent); }
+[calendarContainer] .cal-program a.abCalendarReserved:link,
+[calendarContainer] .cal-program a.abCalendarReserved:visited,
+[calendarContainer] .cal-program a.abCalendarReserved:active,
+[calendarContainer] .cal-program a.abCalendarReserved:hover{ background-color: var(--modern-booked); color: var(--modern-booked-text); }
+[calendarContainer] .cal-program a.abCalendarPending:link,
+[calendarContainer] .cal-program a.abCalendarPending:visited,
+[calendarContainer] .cal-program a.abCalendarPending:active,
+[calendarContainer] .cal-program a.abCalendarPending:hover{ background-color: var(--modern-pending); color: var(--modern-pending-text); }
+[calendarContainer] .cal-program a.abCalendarReservedNightsStart:link,
+[calendarContainer] .cal-program a.abCalendarReservedNightsStart:visited,
+[calendarContainer] .cal-program a.abCalendarReservedNightsStart:hover{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-booked) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarReservedNightsEnd:link,
+[calendarContainer] .cal-program a.abCalendarReservedNightsEnd:visited,
+[calendarContainer] .cal-program a.abCalendarReservedNightsEnd:hover{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-free) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarPendingNightsStart:link,
+[calendarContainer] .cal-program a.abCalendarPendingNightsStart:visited,
+[calendarContainer] .cal-program a.abCalendarPendingNightsStart:hover{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-pending) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarPendingNightsEnd:link,
+[calendarContainer] .cal-program a.abCalendarPendingNightsEnd:visited,
+[calendarContainer] .cal-program a.abCalendarPendingNightsEnd:hover{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-free) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarNightsReservedPending:link,
+[calendarContainer] .cal-program a.abCalendarNightsReservedPending:visited,
+[calendarContainer] .cal-program a.abCalendarNightsReservedPending:hover{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-pending) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarNightsPendingReserved:link,
+[calendarContainer] .cal-program a.abCalendarNightsPendingReserved:visited,
+[calendarContainer] .cal-program a.abCalendarNightsPendingReserved:hover{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-booked) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarNightsReservedReserved:link,
+[calendarContainer] .cal-program a.abCalendarNightsReservedReserved:visited{ background-color: var(--modern-booked); }
+[calendarContainer] .cal-program a.abCalendarNightsPendingPending:link,
+[calendarContainer] .cal-program a.abCalendarNightsPendingPending:visited{ background-color: var(--modern-pending); }
+
+/* scrollbar */
+[calendarContainer] .ps-scrollbar-x-rail{ background: transparent; }
+[calendarContainer] .ps-scrollbar-x{ background: var(--modern-accent); border-radius: 6px; }

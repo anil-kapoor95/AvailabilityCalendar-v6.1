@@ -30,7 +30,7 @@ if (!isset($tpl['arr']) || empty($tpl['arr']))
 	$prev_month = $month - 1 >= 1 ? $month - 1 : $month - 1 + 12;
 	$prev_year = $month - 1 >= 1 ? $year : $year - 1;
 	?>
-	<div class="cal-container">
+	<div class="cal-container<?php echo $controller->getModernOptions() !== NULL ? ' modern-admin' : NULL; ?>">
 		<div class="cal-calendars">
 			<div class="cal-title" style="height: 64px"></div>
 			<?php

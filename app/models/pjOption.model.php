@@ -107,6 +107,8 @@ class pjOptionModel extends pjAppModel
 			array($calendar_id, 'o_font_style_past', 2, 'font-weight: normal|font-weight: bold|font-style: italic|font-style: underline|font-weight: bold; font-style: italic::font-weight: bold', 'Normal|Bold|Italic|Underline|Bold Italic', 'enum', 1, 1, ''),
 			array($calendar_id, 'o_font_style_pending', 2, 'font-weight: normal|font-weight: bold|font-style: italic|font-style: underline|font-weight: bold; font-style: italic::font-weight: bold', 'Normal|Bold|Italic|Underline|Bold Italic', 'enum', 1, 1, ''),
 			array($calendar_id, 'o_font_style_weekday', 2, 'font-weight: normal|font-weight: bold|font-style: italic|font-style: underline|font-weight: bold; font-style: italic::font-weight: normal', 'Normal|Bold|Italic|Underline|Bold Italic', 'enum', 1, 1, ''),
+			array($calendar_id, 'o_theme', 2, 'classic|modern::modern', 'Classic|Modern', 'enum', 0, 1, ''),
+			array($calendar_id, 'o_modern_colors', 2, '', '', 'string', 0, 0, ''),
 			
 			array($calendar_id, 'o_multi_lang', 99, '1|0::1', '', 'bool', '', 0, ''),
 			array($calendar_id, 'o_fields_index', 99, 'd874fcc5fe73b90d770a544664a3775d', '', 'string', '', 0, '')

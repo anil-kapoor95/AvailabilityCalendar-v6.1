@@ -125,6 +125,26 @@ class pjFront extends pjAppController
 	{
 		header("Content-Type: text/css; charset=utf-8");
 	
+		$pjOptionModel = pjOptionModel::factory();
+		$calendar_arr = pjCalendarModel::factory()->findAll()->getData();
+		
+		# Modern: the first calendar that uses it provides the design of the whole availability table
+		$modern_opts = NULL;
+		foreach ($calendar_arr as $calendar)
+		{
+			$option_arr = $pjOptionModel->reset()->getPairs($calendar['id']);
+			if (isset($option_arr['o_theme']) && $option_arr['o_theme'] == 'modern')
+			{
+				$modern_opts = $option_arr;
+				break;
+			}
+		}
+		if (!is_null($modern_opts))
+		{
+			# @import must be the first rule of the stylesheet
+			echo pjAppController::getModernFontsImport(pjAppController::getModernSettings(isset($modern_opts['o_modern_colors']) ? $modern_opts['o_modern_colors'] : ''));
+		}
+	
 		$dm = new pjDependencyManager(PJ_INSTALL_PATH, PJ_THIRD_PARTY_PATH);
 		$dm->load(PJ_CONFIG_PATH . 'dependencies.php')->resolve();
 		$arr = array(
@@ -148,8 +168,13 @@ class pjFront extends pjAppController
 			}
 		}
 	
-		$pjOptionModel = pjOptionModel::factory();
-		$arr = pjCalendarModel::factory()->findAll()->getData();
+		if (!is_null($modern_opts))
+		{
+			echo pjAppController::getModernCss($modern_opts, '.abAvailability', 'modern.availability.css');
+			exit;
+		}
+	
+		$arr = $calendar_arr;
 	
 		ob_start();
 		@readfile(PJ_CSS_PATH . 'availability.txt');
@@ -265,6 +290,12 @@ class pjFront extends pjAppController
 				array('file' => 'ABFonts.min.css', 'path' => PJ_CSS_PATH)
 		);
 		header("Content-Type: text/css; charset=utf-8");
+		$modern = isset($this->option_arr['o_theme']) && $this->option_arr['o_theme'] == 'modern';
+		if ($modern)
+		{
+			# @import must be the first rule of the stylesheet
+			echo pjAppController::getModernFontsImport(pjAppController::getModernSettings(isset($this->option_arr['o_modern_colors']) ? $this->option_arr['o_modern_colors'] : ''));
+		}
 		foreach ($arr as $item)
 		{
 			ob_start();
@@ -281,6 +312,12 @@ class pjFront extends pjAppController
 			}
 		}
 	
+		if ($modern)
+		{
+			echo pjAppController::getModernCss($this->option_arr, '#abWrapper_' . (int) $_GET['cid'], 'modern.css');
+			exit;
+		}
+		
 		ob_start();
 		@readfile(PJ_CSS_PATH . 'ABCalendar.txt');
 		$string = ob_get_contents();

@@ -1,0 +1,342 @@
+@CHARSET "UTF-8";
+/* ==========================================================================
+   Availability Calendar - Modern (customisable)
+   Every colour, font, radius and shadow below comes from the --modern-* variables.
+   The defaults are declared once on the container; the script prints the saved
+   customization after this file, so a saved value always wins.
+   "[calendarContainer]" is replaced with #abWrapper_<calendar id>.
+   ========================================================================== */
+[calendarContainer]{
+	--modern-page:#fbf0ea; --modern-card:#ffffff; --modern-soft:#f4dccf; --modern-line:#f1e0d8; --modern-accent:#e8836b;
+	--modern-heading:#4a2a22; --modern-body:#674c45; --modern-muted:#7d6660; --modern-link:#ae3c22;
+	--modern-btn:#c94e33; --modern-btn-text:#ffffff; --modern-btn-hover:#b73f24; --modern-btn2:#ffffff; --modern-btn2-text:#ae3c22;
+	--modern-free:#dcefe6; --modern-free-text:#256a50;
+	--modern-booked:#f3cfc4; --modern-booked-text:#a53a22;
+	--modern-pending:#fbe5b5; --modern-pending-text:#8a5a00;
+	--modern-past:#f6f0ec; --modern-past-text:#b8a8a1;
+	--modern-font-head:'Poppins',system-ui,sans-serif; --modern-font-body:'Poppins',system-ui,sans-serif; --modern-fs:14px;
+	--modern-r:18px; --modern-rb:12px; --modern-ri:10px; --modern-cell:12px;
+	--modern-shadow:0 10px 30px color-mix(in srgb, var(--modern-heading) 10%, transparent);
+
+	box-sizing: border-box;
+	height: auto;
+	background: var(--modern-page);
+	border-radius: var(--modern-r);
+	padding: 12px;
+	font-family: var(--modern-font-body);
+	font-size: var(--modern-fs);
+	line-height: 1.5;
+	color: var(--modern-body);
+}
+[calendarContainer] *,
+[calendarContainer] *:before,
+[calendarContainer] *:after{
+	box-sizing: border-box;
+}
+[calendarContainer] .abClear{ clear: both; }
+[calendarContainer] a{ outline: none; }
+[calendarContainer] a:focus-visible,
+[calendarContainer] .abMenuLocale a:focus-visible{
+	outline: 2px solid var(--modern-accent);
+	outline-offset: 2px;
+}
+
+/* ---- toolbar (several-months views, language flags, back link) ---- */
+[calendarContainer] .abMenu{
+	height: auto;
+	min-height: 0;
+	overflow: visible;
+	background: transparent;
+	margin: 0 0 12px;
+}
+[calendarContainer] .abMenu:empty{ margin: 0; }
+[calendarContainer] .abMenuNav{
+	float: left;
+	margin: 0;
+	display: flex;
+	gap: 8px;
+}
+[calendarContainer] .abMenuNav li{ float: none; padding: 0; }
+[calendarContainer] .abMenuNav a,
+[calendarContainer] .abMenuNav a:link,
+[calendarContainer] .abMenuNav a:visited{
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	width: 38px !important;
+	height: 38px !important;
+	border-radius: 50%;
+	border: 1px solid var(--modern-line);
+	background: var(--modern-btn2);
+	color: var(--modern-btn2-text);
+	box-shadow: var(--modern-shadow);
+	text-decoration: none;
+}
+[calendarContainer] .abMenuNav a:hover{
+	border-color: var(--modern-accent);
+	background: var(--modern-btn2);
+}
+[calendarContainer] .abMenuLocale{ float: right; }
+[calendarContainer] .abMenuLocale li{ margin-left: 6px; }
+[calendarContainer] .abMenuLocale a{
+	border: 2px solid transparent;
+	border-radius: var(--modern-ri);
+	padding: 2px;
+	background: var(--modern-card);
+}
+[calendarContainer] .abMenuLocale a.abLocaleFocus,
+[calendarContainer] .abMenuLocale a:hover{
+	border-color: var(--modern-accent);
+}
+[calendarContainer] .abMenu a.abReturnToAvailability:link,
+[calendarContainer] .abMenu a.abReturnToAvailability:visited,
+[calendarContainer] .abMenu a.abReturnToAvailability:active,
+[calendarContainer] .abMenu a.abReturnToAvailability:hover,
+[calendarContainer] .abMenu a.abReturnToAvailability:focus{
+	display: inline-block;
+	background: var(--modern-btn);
+	color: var(--modern-btn-text);
+	border-radius: 999px;
+	padding: 6px 16px;
+	font-weight: 600;
+	text-decoration: none;
+}
+[calendarContainer] .abMenu a.abReturnToAvailability:hover{ background: var(--modern-btn-hover); }
+
+/* ---- month card ---- */
+[calendarContainer] table.abCalendarTable,
+[calendarContainer] table.abCalendarTablePrice{
+	background: var(--modern-card);
+	border: 0;
+	border-collapse: separate;
+	border-spacing: 6px;
+	table-layout: fixed;
+	float: none;
+	width: 100%;
+	height: auto;
+	margin: 0;
+	padding: 12px;
+	border-radius: var(--modern-r);
+	box-shadow: var(--modern-shadow);
+	font-family: var(--modern-font-body);
+}
+[calendarContainer] td.abCalendarMonth{
+	background: transparent;
+	border: 0;
+	color: var(--modern-heading);
+	font-family: var(--modern-font-head);
+	font-size: calc(var(--modern-fs) * 1.3);
+	font-weight: 600;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	padding: 0 0 8px;
+}
+[calendarContainer] td.abCalendarMonthPrev,
+[calendarContainer] td.abCalendarMonthNext{
+	width: auto;
+	background: transparent;
+}
+[calendarContainer] .abCalendarMonthInner{
+	overflow: visible;
+	position: static;
+	width: 100%;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+[calendarContainer] td.abCalendarMonthPrev .abCalendarMonthInner{ justify-content: flex-start; }
+[calendarContainer] td.abCalendarMonthNext .abCalendarMonthInner{ justify-content: flex-end; }
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:link,
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:visited,
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:active,
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:hover,
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:focus{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: none;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	border: 1px solid var(--modern-line);
+	background: var(--modern-btn2);
+	color: var(--modern-btn2-text);
+	font-size: 0;
+	line-height: 0;
+	text-decoration: none;
+	box-shadow: var(--modern-shadow);
+}
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:hover{ border-color: var(--modern-accent); }
+[calendarContainer] td.abCalendarMonth a.abCalendarLinkMonth:before{
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-left: 2.5px solid currentColor;
+	border-bottom: 2.5px solid currentColor;
+	display: block;
+}
+[calendarContainer] td.abCalendarMonthPrev a.abCalendarLinkMonth:before{
+	transform: rotate(45deg);
+	margin-left: 4px;
+}
+[calendarContainer] td.abCalendarMonthNext a.abCalendarLinkMonth:before{
+	transform: rotate(-135deg);
+	margin-right: 4px;
+}
+
+/* ---- week days, week numbers, days ---- */
+[calendarContainer] td.abCalendarWeekDay,
+[calendarContainer] td.abCalendarWeekNum{
+	background: transparent;
+	border: 0;
+	color: var(--modern-muted);
+	font-size: calc(var(--modern-fs) * 0.8);
+	font-weight: 600;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	text-align: center;
+	vertical-align: middle;
+}
+[calendarContainer] td.abCalendarWeekDay span.abCalendarWeekDayInner{
+	display: block;
+	padding: 4px 0;
+}
+[calendarContainer] td.abCalendarWeekNum{ opacity: .7; }
+[calendarContainer] td.abCalendarDate,
+[calendarContainer] td.abCalendarToday,
+[calendarContainer] td.abCalendarReserved,
+[calendarContainer] td.abCalendarPending,
+[calendarContainer] td.abCalendarPast,
+[calendarContainer] td.abCalendarEmpty,
+[calendarContainer] td.abCalendarPendingNightsStart,
+[calendarContainer] td.abCalendarPendingNightsEnd,
+[calendarContainer] td.abCalendarReservedNightsStart,
+[calendarContainer] td.abCalendarReservedNightsEnd,
+[calendarContainer] td.abCalendarNightsReservedReserved,
+[calendarContainer] td.abCalendarNightsReservedPending,
+[calendarContainer] td.abCalendarNightsPendingReserved,
+[calendarContainer] td.abCalendarNightsPendingPending{
+	border: 0;
+	border-radius: var(--modern-cell);
+	text-align: center;
+	vertical-align: middle;
+	font-size: var(--modern-fs);
+	font-weight: 600;
+	background-image: none;
+	transition: filter .12s;
+}
+[calendarContainer] td.abCalendarEmpty{ background: transparent; }
+[calendarContainer] .abCalendarCellInner{ height: 100%; position: relative; width: 100%; }
+[calendarContainer] .abImageWrap{ display: none; }
+[calendarContainer] .abCalendarLinkDate{
+	width: 100%;
+	padding: 32% 0;
+	margin: 0;
+	position: relative;
+}
+[calendarContainer] .abCalendarLinkDateInner{ margin: auto; }
+[calendarContainer] .abCalendarPriceStatic{ margin: 2px 0 0; font-size: .75em; font-weight: 500; }
+
+/* availability statuses */
+[calendarContainer] td.abCalendarDate,
+[calendarContainer] td.abCalendarToday{
+	background-color: var(--modern-free);
+	color: var(--modern-free-text);
+}
+[calendarContainer] td.abCalendarReserved{
+	background-color: var(--modern-booked);
+	color: var(--modern-booked-text);
+	background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px);
+}
+[calendarContainer] td.abCalendarPending{
+	background-color: var(--modern-pending);
+	color: var(--modern-pending-text);
+}
+[calendarContainer] td.abCalendarPast{
+	background-color: var(--modern-past);
+	color: var(--modern-past-text);
+	font-weight: 500;
+}
+/* change-over days (half available / half booked or pending) */
+[calendarContainer] td.abCalendarReservedNightsStart{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-booked) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarReservedNightsEnd{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-free) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarPendingNightsStart{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-pending) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarPendingNightsEnd{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-free) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarNightsReservedPending{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-pending) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarNightsPendingReserved{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-booked) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarNightsReservedReserved{ background-color: var(--modern-booked); color: var(--modern-booked-text); }
+[calendarContainer] td.abCalendarNightsPendingPending{ background-color: var(--modern-pending); color: var(--modern-pending-text); }
+[calendarContainer] td.abCalendarCell:hover{ filter: brightness(.96); }
+[calendarContainer] td.abCalendarPast:hover,
+[calendarContainer] td.abCalendarEmpty:hover{ filter: none; }
+
+/* ---- legend ---- */
+[calendarContainer] table.abCalendarLegend{
+	clear: both;
+	width: 100%;
+	margin: 14px 0 0;
+	padding: 10px 14px;
+	background: var(--modern-card);
+	border: 0;
+	border-collapse: separate;
+	border-spacing: 6px 0;
+	border-radius: var(--modern-r);
+	box-shadow: var(--modern-shadow);
+	font-family: var(--modern-font-body);
+	font-size: calc(var(--modern-fs) * 0.9);
+	color: var(--modern-muted);
+}
+[calendarContainer] td.abCalendarColor{
+	width: 16px;
+	min-width: 16px;
+	height: 16px;
+	padding: 0;
+	font-size: 0;
+	line-height: 0;
+	border-radius: 5px;
+}
+[calendarContainer] td.abCalendarLabel{ padding: 6px 12px 6px 4px; }
+[calendarContainer] td.abCalendarColorAvailable{ background: var(--modern-free); }
+[calendarContainer] td.abCalendarColorReserved{ background: var(--modern-booked); }
+[calendarContainer] td.abCalendarColorPending{ background: var(--modern-pending); }
+[calendarContainer] td.abCalendarColorPast{ background: var(--modern-past); }
+
+/* ---- several months per page ---- */
+[calendarContainer].abWrapper13 table.abCalendarTable{ width: 100%; height: auto; margin: 0; }
+[calendarContainer].abWrapper13 .abBox13{
+	width: 33%;
+	height: auto;
+	float: left;
+	margin: 0 0.5% 12px 0;
+	padding: 0;
+}
+[calendarContainer].abWrapper13 .abBox13:nth-child(3n+3){ margin-right: 0 !important; }
+[calendarContainer].abWrapper13 td.abCalendarMonth{ font-size: var(--modern-fs); }
+[calendarContainer].abWrapper13 td.abCalendarDate,
+[calendarContainer].abWrapper13 td.abCalendarReserved,
+[calendarContainer].abWrapper13 td.abCalendarPending,
+[calendarContainer].abWrapper13 td.abCalendarPast{ font-size: calc(var(--modern-fs) * 0.85); }
+
+/* ---- messages ---- */
+.abCalendarNote{ font-size: 14px; margin-bottom: 12px; }
+[calendarContainer] .abLoader .abLoaderMessage{ color: var(--modern-muted); }
+
+@media screen and (max-width: 480px) {
+	[calendarContainer]{ padding: 8px; }
+	[calendarContainer] table.abCalendarTable,
+	[calendarContainer] table.abCalendarTablePrice{ border-spacing: 4px; padding: 8px; }
+	[calendarContainer] td.abCalendarMonth{ font-size: var(--modern-fs); }
+	[calendarContainer] td.abCalendarDate,
+	[calendarContainer] td.abCalendarReserved,
+	[calendarContainer] td.abCalendarPending,
+	[calendarContainer] td.abCalendarPast{ font-size: calc(var(--modern-fs) * 0.9); }
+	[calendarContainer] table.abCalendarLegend td.abCalendarLabel{ padding-right: 6px; }
+}
+@media (max-width: 767px){
+	[calendarContainer].abWrapper13 .abBox13{
+		width: auto;
+		float: none;
+		margin: 0 0 14px;
+	}
+}

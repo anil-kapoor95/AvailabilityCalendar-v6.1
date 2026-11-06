@@ -82,6 +82,53 @@ if (isset($tpl['status']))
 		left: 0px !important;
 		position: absolute !important;
 	}
+	<?php if (isset($tpl['option_arr']['o_theme']) && $tpl['option_arr']['o_theme'] == 'modern') : ?>
+	/* Modern design: smaller calendar card, so the date form fits on its right */
+	#abWrapper_<?php echo $controller->getForeignId(); ?> {
+		width: 340px;
+		max-width: 100%;
+	}
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable{
+		width: 100% !important;
+		height: auto !important;
+	}
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarWeekDay,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarWeekNum,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarToday,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarReserved,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarPending,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarPast,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarEmpty,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarDate,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarPendingNightsStart,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarPendingNightsEnd,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarReservedNightsStart,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarReservedNightsEnd,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarNightsReservedReserved,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarNightsReservedPending,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarNightsPendingReserved,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarTable td.abCalendarNightsPendingPending{
+		width: auto !important;
+		height: 34px !important;
+	}
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend tbody,
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend tr{
+		display: block;
+	}
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend tr{
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 4px 6px;
+	}
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend td{
+		display: block;
+	}
+	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend td.abCalendarColor{
+		flex: 0 0 16px;
+	}
+	<?php endif; ?>
 	</style>
 	<?php include PJ_VIEWS_PATH . 'pjLayouts/elements/calmenu.php'; ?>
 	
