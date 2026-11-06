@@ -123,16 +123,20 @@
 									enableButtons();
 									$(".i-status").find("p").html(data.text).end().show();
 								}
-							}).fail(function () {
+							}).fail(function (xhr) {
+								$ready.eq(1).addClass("i-option-err").removeClass("i-option-load i-option-ready");
 								enableButtons();
+								$(".i-status").find("p").html("The server returned an error (HTTP " + xhr.status + ") while creating the database tables. Open the installer once with &amp;reporting=1 added to the address, or check the PHP error log, to see the cause.").end().show();
 							});
 						} else {
 							$ready.eq(0).addClass("i-option-err").removeClass("i-option-load i-option-ready");
 							enableButtons();
 							$(".i-status").find("p").html(data.text).end().show();
 						}
-					}).fail(function () {
+					}).fail(function (xhr) {
+						$ready.eq(0).addClass("i-option-err").removeClass("i-option-load i-option-ready");
 						enableButtons();
+						$(".i-status").find("p").html("The server returned an error (HTTP " + xhr.status + ") while writing the configuration file. Check that app/config/config.inc.php is writable.").end().show();
 					});
 				}				
 			});		
