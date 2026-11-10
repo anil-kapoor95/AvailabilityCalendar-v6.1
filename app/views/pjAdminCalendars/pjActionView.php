@@ -119,7 +119,7 @@ if (isset($tpl['status']))
 	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend tr{
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
+		align-items: stretch;
 		gap: 4px 6px;
 	}
 	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend td{
@@ -127,6 +127,8 @@ if (isset($tpl['status']))
 	}
 	#abWrapper_<?php echo $controller->getForeignId(); ?> table.abCalendarLegend td.abCalendarColor{
 		flex: 0 0 16px;
+		height: auto;
+		align-self: stretch;
 	}
 	<?php endif; ?>
 	</style>
