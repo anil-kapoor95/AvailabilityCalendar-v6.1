@@ -321,6 +321,56 @@
 /* ---- messages ---- */
 .abCalendarNote{ font-size: 14px; margin-bottom: 12px; }
 [calendarContainer] .abLoader .abLoaderMessage{ color: var(--modern-muted); }
+/* ---- loader ---- */
+[calendarContainer] .abLoader{
+	min-height: 150px;
+	padding: 28px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	background: var(--modern-card);
+	border-radius: var(--modern-r);
+	box-shadow: var(--modern-shadow);
+	overflow: hidden;
+	text-align: center;
+}
+[calendarContainer] .abLoader .abLoaderInner{
+	position: relative;
+	width: 44px;
+	height: 44px;
+	margin: 0;
+}
+[calendarContainer] .abLoader .abLoaderInner .spinner-container{ display: none; }
+[calendarContainer] .abLoader .abLoaderInner:before,
+[calendarContainer] .abLoader .abLoaderInner:after{
+	content: "";
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	border-radius: 50%;
+	border: 4px solid var(--modern-soft);
+}
+[calendarContainer] .abLoader .abLoaderInner:after{
+	border-color: transparent;
+	border-top-color: var(--modern-accent);
+	border-right-color: var(--modern-accent);
+	-webkit-animation: modernSpin .9s cubic-bezier(.5, .1, .5, .9) infinite;
+	animation: modernSpin .9s cubic-bezier(.5, .1, .5, .9) infinite;
+}
+[calendarContainer] .abLoader .abLoaderMessage{
+	font-family: var(--modern-font-body);
+	font-size: calc(var(--modern-fs) * 0.9);
+	line-height: 1.3;
+	color: var(--modern-muted);
+}
+[calendarContainer] .abLoader .abLoaderMessage:empty{ display: none; }
+@-webkit-keyframes modernSpin{ to{ -webkit-transform: rotate(360deg); } }
+@keyframes modernSpin{ to{ transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce){
+	[calendarContainer] .abLoader .abLoaderInner:after{ -webkit-animation-duration: 2.4s; animation-duration: 2.4s; }
+}
+
 
 @media screen and (max-width: 480px) {
 	[calendarContainer]{ padding: 8px; }
