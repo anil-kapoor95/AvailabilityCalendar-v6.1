@@ -298,7 +298,11 @@
 }
 [calendarContainer] td.abCalendarLabel{ padding: 0 12px 0 4px; line-height: 1.3; vertical-align: middle; }
 [calendarContainer] td.abCalendarColorAvailable{ background: var(--modern-free); }
-[calendarContainer] td.abCalendarColorReserved{ background: var(--modern-booked); }
+[calendarContainer] td.abCalendarColorReserved{
+	background-color: var(--modern-booked);
+	/* same diagonal stripes as the booked days in the calendar */
+	background-image: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--modern-card) 45%, transparent) 4px 6px);
+}
 [calendarContainer] td.abCalendarColorPending{ background: var(--modern-pending); }
 [calendarContainer] td.abCalendarColorPast{ background: var(--modern-past); }
 
