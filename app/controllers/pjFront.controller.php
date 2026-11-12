@@ -141,8 +141,13 @@ class pjFront extends pjAppController
 		}
 		if (!is_null($modern_opts))
 		{
-			# @import must be the first rule of the stylesheet
-			echo pjAppController::getModernFontsImport(pjAppController::getModernSettings(isset($modern_opts['o_modern_colors']) ? $modern_opts['o_modern_colors'] : ''));
+			# @import must be the first rule of the stylesheet (fonts of all Modern calendars)
+			$row_arr = array();
+			foreach ($calendar_arr as $calendar)
+			{
+				$row_arr[$calendar['id']] = $pjOptionModel->reset()->getPairs($calendar['id']);
+			}
+			echo pjAppController::getModernFontsImportAll(array_merge(array($modern_opts), $row_arr));
 		}
 	
 		$dm = new pjDependencyManager(PJ_INSTALL_PATH, PJ_THIRD_PARTY_PATH);
@@ -171,6 +176,11 @@ class pjFront extends pjAppController
 		if (!is_null($modern_opts))
 		{
 			echo pjAppController::getModernCss($modern_opts, '.abAvailability', 'modern.availability.css');
+			# every calendar row (and its name) uses the appearance of its own calendar
+			foreach ($row_arr as $cid => $row_options)
+			{
+				echo pjAppController::getModernRowCss($row_options, '.abAvailability .abCal-id-' . (int) $cid . ', .abAvailability .abCal-t-' . (int) $cid);
+			}
 			exit;
 		}
 	
@@ -440,7 +450,7 @@ class pjFront extends pjAppController
 	
 			if ($arr !== FALSE && isset($arr['o_timezone']))
 			{
-				pjFront::pjActionSetTime($arr['o_timezone']);
+				pjFront::pjActionSetTime((int) (strpos($arr['o_timezone'], '::') !== false ? substr($arr['o_timezone'], strrpos($arr['o_timezone'], '::') + 2) : $arr['o_timezone']));
 			}
 		}
 	}
@@ -494,8 +504,10 @@ class pjFront extends pjAppController
 				{
 					# Cache timezone
 					$last_timezone = $calendar['o_timezone'];
+					# the option is stored as "list|of|values::selected" - use the selected value only (otherwise the first one, UTC-12, was used)
+					$tz_value = strpos($calendar['o_timezone'], '::') !== false ? substr($calendar['o_timezone'], strrpos($calendar['o_timezone'], '::') + 2) : $calendar['o_timezone'];
 			
-					pjFront::pjActionSetTime($calendar['o_timezone']);
+					pjFront::pjActionSetTime((int) $tz_value);
 				}
 	
 				list($Y, $n) = explode("-", date("Y-n"));

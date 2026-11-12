@@ -248,6 +248,69 @@ class pjAppController extends pjController
 		return $css . self::getModernCssBlock($settings, $selector);
 	}
 
+	/**
+	 * Modern: the "--modern-*" block of ONE calendar row of the all-calendars tables (admin overview, front availability).
+	 * A Modern calendar uses its own palette, font, radius and shadow; a Classic calendar uses its own classic colours (square cells).
+	 */
+	public static function getModernRowCss($option_arr, $selector)
+	{
+		$cfg = self::getModernDefaults();
+		unset($cfg['palette']);
+		if (isset($option_arr['o_theme']) && $option_arr['o_theme'] == 'modern')
+		{
+			$settings = self::getModernSettings(isset($option_arr['o_modern_colors']) ? $option_arr['o_modern_colors'] : '');
+			foreach ($settings as $k => $v)
+			{
+				if ($k == 'palette')
+				{
+					continue;
+				}
+				if ($k == 'colors')
+				{
+					$cfg['colors'] = array_merge($cfg['colors'], $v);
+				} else {
+					$cfg[$k] = $v;
+				}
+			}
+		} else {
+			foreach (array('free' => 'available', 'booked' => 'booked', 'pending' => 'pending', 'past' => 'past') as $token => $name)
+			{
+				$bg = isset($option_arr['o_background_' . $name]) ? $option_arr['o_background_' . $name] : '';
+				$fg = isset($option_arr['o_color_' . $name]) ? $option_arr['o_color_' . $name] : '';
+				if (is_string($bg) && preg_match('/^#[0-9a-fA-F]{6}$/', $bg))
+				{
+					$cfg['colors'][$token] = strtolower($bg);
+				}
+				if (is_string($fg) && preg_match('/^#[0-9a-fA-F]{6}$/', $fg))
+				{
+					$cfg['colors'][$token . '_text'] = strtolower($fg);
+				}
+			}
+			$cfg['radius'] = 'sharp';
+		}
+		return self::getModernCssBlock($cfg, $selector);
+	}
+
+	/**
+	 * Modern: the Google Fonts @import lines (unique) needed by all calendars that use the Modern design.
+	 */
+	public static function getModernFontsImportAll($option_arr_list)
+	{
+		$out = array();
+		foreach ($option_arr_list as $option_arr)
+		{
+			if (isset($option_arr['o_theme']) && $option_arr['o_theme'] == 'modern')
+			{
+				$line = self::getModernFontsImport(self::getModernSettings(isset($option_arr['o_modern_colors']) ? $option_arr['o_modern_colors'] : ''));
+				if ($line !== '' && !in_array($line, $out))
+				{
+					$out[] = $line;
+				}
+			}
+		}
+		return join('', $out);
+	}
+
 	public $option_arr = array();
 
 	public $defaultLocale = 'admin_locale_id';

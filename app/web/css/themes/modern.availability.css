@@ -62,7 +62,7 @@
 [calendarContainer] .abCal-program{
 	border-bottom: 1px solid var(--modern-line);
 }
-[calendarContainer] .abCal-title{ color: var(--modern-body); }
+[calendarContainer] .abCal-title{ color: var(--modern-body); font-family: var(--modern-font-body); }
 [calendarContainer] .abCal-title .abCal-note{ color: var(--modern-muted); font-size: calc(var(--modern-fs) * 0.9); }
 [calendarContainer] .abCal-title a.abCal-link{ color: var(--modern-link); font-weight: 600; }
 

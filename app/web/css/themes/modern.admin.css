@@ -52,7 +52,7 @@
 [calendarContainer] .cal-program{
 	border-bottom: 1px solid var(--modern-line);
 }
-[calendarContainer] .cal-title{ color: var(--modern-heading); font-weight: 600; }
+[calendarContainer] .cal-title{ color: var(--modern-heading); font-family: var(--modern-font-body); font-weight: 600; }
 [calendarContainer] .cal-title a:link,
 [calendarContainer] .cal-title a:visited,
 [calendarContainer] .cal-title a:active{

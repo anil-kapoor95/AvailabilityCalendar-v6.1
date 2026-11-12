@@ -36,7 +36,7 @@ if (!isset($tpl['arr']) || empty($tpl['arr']))
 			<?php
 			foreach ($tpl['arr'] as $k => $calendar)
 			{
-				?><div class="cal-title"><?php
+				?><div class="cal-title cal-t-<?php echo (int) $calendar['id']; ?>"><?php
 				if ($controller->isAdmin() || ($controller->isOwner() && $controller->getUserId() == $calendar['user_id']) || $controller->isEditor())
 				{
 					?><a href="<?php echo $_SERVER['PHP_SELF']; ?>?controller=pjAdmin&amp;action=pjActionRedirect&amp;nextController=pjAdminCalendars&amp;nextAction=pjActionView&amp;calendar_id=<?php echo $calendar['id']; ?>&amp;nextParams=<?php echo urlencode('id='. $calendar['id']); ?>"><?php echo pjSanitize::html($calendar['title']); ?></a><?php
@@ -104,6 +104,11 @@ if (!isset($tpl['arr']) || empty($tpl['arr']))
 	    	    	$yesterday = $timestamp - 86400;
 	    	    	$iso_date = date("Y-m-d", $timestamp);
 	    	    	$class = pjUtil::getClass($date_arr, date('Y-m-d',$timestamp), date('Y-m-d',$tomorrow), date('Y-m-d',$yesterday), $haystack);
+	    	    	# past days are shown as past (same as the calendar), whatever their status
+	    	    	if ($timestamp < strtotime('today'))
+	    	    	{
+	    	    		$class = trim($class . ' abCalendarPast');
+	    	    	}
 	    	    	$params = sprintf("id=%u&start_date=%s", $calendar['id'], $iso_date);
 	    	    	?><a href="<?php echo $_SERVER['PHP_SELF']; ?>?controller=pjAdmin&amp;action=pjActionRedirect&amp;nextController=pjAdminCalendars&amp;nextAction=pjActionView&amp;id=<?php echo $calendar['id']; ?>&amp;nextParams=<?php echo urlencode($params); ?>" class="<?php echo $class; ?>">&nbsp;</a><?php
 				}

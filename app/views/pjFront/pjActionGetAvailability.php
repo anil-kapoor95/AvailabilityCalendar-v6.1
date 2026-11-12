@@ -26,7 +26,7 @@ if (isset($tpl['arr']) && !empty($tpl['arr']))
 			<?php
 			foreach ($tpl['arr'] as $k => $calendar)
 			{
-				?><div class="abCal-title"><a href="#" class="abCal-link" data-id="<?php echo $calendar['id']; ?>"><?php echo pjSanitize::html($calendar['title']); ?></a></div><?php
+				?><div class="abCal-title abCal-t-<?php echo (int) $calendar['id']; ?>"><a href="#" class="abCal-link" data-id="<?php echo $calendar['id']; ?>"><?php echo pjSanitize::html($calendar['title']); ?></a></div><?php
 			}
 			?>
 		</div>
@@ -97,11 +97,13 @@ if (isset($tpl['arr']) && !empty($tpl['arr']))
 	    	    	$tomorrow = $timestamp + 86400;
 	    	    	$yesterday = $timestamp - 86400;
 	    	    	$class = pjUtil::getClass($date_arr, date('Y-m-d',$timestamp), date('Y-m-d',$tomorrow), date('Y-m-d',$yesterday), $haystack);
+	    	    	# past days are shown as past (same as the calendar), whatever their status
+	    	    	$pastClass = $timestamp < strtotime('today') ? ' abCalendarPast' : '';
 	    	    	if (!is_null($class) && array_key_exists($class, $imageMap))
 	    	    	{
-	    	    		?><span class="abCal-imgOuter <?php echo $class; ?>"><span class="abCal-imgWrap"><img class="abCal-img" src="<?php echo $imageMap[$class]; ?>?rand=<?php echo $rand; ?>" alt="" /></span></span><?php
+	    	    		?><span class="abCal-imgOuter <?php echo $class . $pastClass; ?>"><span class="abCal-imgWrap"><img class="abCal-img" src="<?php echo $imageMap[$class]; ?>?rand=<?php echo $rand; ?>" alt="" /></span></span><?php
 	    	    	} else {
-	    	    		?><span class="<?php echo $class; ?>">&nbsp;</span><?php
+	    	    		?><span class="<?php echo trim($class . $pastClass); ?>">&nbsp;</span><?php
 	    	    		
 	    	    	}
 				}

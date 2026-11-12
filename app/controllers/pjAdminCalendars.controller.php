@@ -421,8 +421,19 @@ class pjAdminCalendars extends pjAdmin
 		$option_arr = $this->getModernOptions();
 		if ($option_arr !== NULL)
 		{
-			echo pjAppController::getModernFontsImport(pjAppController::getModernSettings(isset($option_arr['o_modern_colors']) ? $option_arr['o_modern_colors'] : ''));
+			# every calendar row (and its name) uses the appearance of its own calendar
+			$row_arr = array();
+			$pjOptionModel = pjOptionModel::factory();
+			foreach (pjCalendarModel::factory()->findAll()->getData() as $calendar)
+			{
+				$row_arr[$calendar['id']] = $pjOptionModel->reset()->getPairs($calendar['id']);
+			}
+			echo pjAppController::getModernFontsImportAll(array_merge(array($option_arr), $row_arr));
 			echo pjAppController::getModernCss($option_arr, '.cal-container.modern-admin', 'modern.admin.css');
+			foreach ($row_arr as $cid => $row_options)
+			{
+				echo pjAppController::getModernRowCss($row_options, '.cal-container.modern-admin .cal-id-' . (int) $cid . ', .cal-container.modern-admin .cal-t-' . (int) $cid);
+			}
 		}
 		exit;
 	}
