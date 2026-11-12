@@ -259,13 +259,13 @@
 	font-weight: 500;
 }
 /* change-over days (half available / half booked or pending) */
-[calendarContainer] td.abCalendarReservedNightsStart{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-booked) 50% 100%); color: var(--modern-heading); }
-[calendarContainer] td.abCalendarReservedNightsEnd{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-free) 50% 100%); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarReservedNightsStart{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, var(--modern-free) 0 50%, transparent 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarReservedNightsEnd{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, transparent 0 50%, var(--modern-free) 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); color: var(--modern-heading); }
 [calendarContainer] td.abCalendarPendingNightsStart{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-pending) 50% 100%); color: var(--modern-heading); }
 [calendarContainer] td.abCalendarPendingNightsEnd{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-free) 50% 100%); color: var(--modern-heading); }
-[calendarContainer] td.abCalendarNightsReservedPending{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-pending) 50% 100%); color: var(--modern-heading); }
-[calendarContainer] td.abCalendarNightsPendingReserved{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-booked) 50% 100%); color: var(--modern-heading); }
-[calendarContainer] td.abCalendarNightsReservedReserved{ background-color: var(--modern-booked); color: var(--modern-booked-text); }
+[calendarContainer] td.abCalendarNightsReservedPending{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, transparent 0 50%, var(--modern-pending) 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarNightsPendingReserved{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, transparent 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); color: var(--modern-heading); }
+[calendarContainer] td.abCalendarNightsReservedReserved{ background-color: var(--modern-booked); background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); color: var(--modern-booked-text); }
 [calendarContainer] td.abCalendarNightsPendingPending{ background-color: var(--modern-pending); color: var(--modern-pending-text); }
 [calendarContainer] td.abCalendarCell:hover{ filter: brightness(.96); }
 [calendarContainer] td.abCalendarPast:hover,

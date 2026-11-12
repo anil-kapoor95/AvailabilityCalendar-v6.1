@@ -99,6 +99,8 @@
 }
 [calendarContainer] .abCal-program span.abCalendarReserved{
 	background-color: var(--modern-booked);
+	/* same diagonal stripes as booked days in the calendar */
+	background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px);
 	color: var(--modern-booked-text);
 }
 [calendarContainer] .abCal-program span.abCalendarPending{
@@ -110,14 +112,20 @@
 	color: var(--modern-past-text);
 }
 [calendarContainer] .abCal-program span.abCal-imgOuter .abCal-imgWrap{ display: none; }
-[calendarContainer] .abCal-program span.abCalendarReservedNightsStart{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-booked) 50% 100%); }
-[calendarContainer] .abCal-program span.abCalendarReservedNightsEnd{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-free) 50% 100%); }
+[calendarContainer] .abCal-program span.abCalendarReservedNightsStart{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, var(--modern-free) 0 50%, transparent 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
+[calendarContainer] .abCal-program span.abCalendarReservedNightsEnd{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, transparent 0 50%, var(--modern-free) 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .abCal-program span.abCalendarPendingNightsStart{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-pending) 50% 100%); }
 [calendarContainer] .abCal-program span.abCalendarPendingNightsEnd{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-free) 50% 100%); }
-[calendarContainer] .abCal-program span.abCalendarNightsReservedPending{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-pending) 50% 100%); }
-[calendarContainer] .abCal-program span.abCalendarNightsPendingReserved{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-booked) 50% 100%); }
-[calendarContainer] .abCal-program span.abCalendarNightsReservedReserved{ background-color: var(--modern-booked); }
+[calendarContainer] .abCal-program span.abCalendarNightsReservedPending{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, transparent 0 50%, var(--modern-pending) 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
+[calendarContainer] .abCal-program span.abCalendarNightsPendingReserved{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, transparent 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
+[calendarContainer] .abCal-program span.abCalendarNightsReservedReserved{ background-color: var(--modern-booked); background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .abCal-program span.abCalendarNightsPendingPending{ background-color: var(--modern-pending); }
+/* past days: always shown as "past", whatever their status (same as the calendar) - keep after the status rules so it wins */
+[calendarContainer] .abCal-program span.abCalendarPast{
+	background-color: var(--modern-past);
+	background-image: none;
+	color: var(--modern-past-text);
+}
 
 /* ---- loader ---- */
 [calendarContainer] .abLoader{

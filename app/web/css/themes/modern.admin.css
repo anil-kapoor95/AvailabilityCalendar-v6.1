@@ -65,7 +65,10 @@
 /* header: month name with round-ish prev/next links, then the day chips */
 [calendarContainer] .cal-head-row span{
 	background: transparent;
+	/* no border, but the same 43x31 box as the day cells below (original: 41x29 + 1px border), so chip and box line up exactly */
 	border: 0;
+	width: 43px;
+	height: 31px;
 	color: var(--modern-muted);
 	font-weight: 600;
 	font-size: calc(var(--modern-fs) * 0.8);
@@ -80,6 +83,8 @@
 	background: var(--modern-soft);
 	color: var(--modern-heading);
 	border-radius: calc(var(--modern-cell) * 0.5);
+	/* same thin card-coloured gap as the day boxes, so chip and box have identical visible edges */
+	box-shadow: inset 0 0 0 2px var(--modern-card);
 }
 [calendarContainer] .cal-prev,
 [calendarContainer] .cal-next{
@@ -119,17 +124,22 @@
 [calendarContainer] .cal-program a.abCalendarReserved:link,
 [calendarContainer] .cal-program a.abCalendarReserved:visited,
 [calendarContainer] .cal-program a.abCalendarReserved:active,
-[calendarContainer] .cal-program a.abCalendarReserved:hover{ background-color: var(--modern-booked); color: var(--modern-booked-text); }
+[calendarContainer] .cal-program a.abCalendarReserved:hover{
+	background-color: var(--modern-booked);
+	/* same diagonal stripes as booked days in the calendar */
+	background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px);
+	color: var(--modern-booked-text);
+}
 [calendarContainer] .cal-program a.abCalendarPending:link,
 [calendarContainer] .cal-program a.abCalendarPending:visited,
 [calendarContainer] .cal-program a.abCalendarPending:active,
 [calendarContainer] .cal-program a.abCalendarPending:hover{ background-color: var(--modern-pending); color: var(--modern-pending-text); }
 [calendarContainer] .cal-program a.abCalendarReservedNightsStart:link,
 [calendarContainer] .cal-program a.abCalendarReservedNightsStart:visited,
-[calendarContainer] .cal-program a.abCalendarReservedNightsStart:hover{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-booked) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarReservedNightsStart:hover{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, var(--modern-free) 0 50%, transparent 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .cal-program a.abCalendarReservedNightsEnd:link,
 [calendarContainer] .cal-program a.abCalendarReservedNightsEnd:visited,
-[calendarContainer] .cal-program a.abCalendarReservedNightsEnd:hover{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-free) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarReservedNightsEnd:hover{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, transparent 0 50%, var(--modern-free) 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .cal-program a.abCalendarPendingNightsStart:link,
 [calendarContainer] .cal-program a.abCalendarPendingNightsStart:visited,
 [calendarContainer] .cal-program a.abCalendarPendingNightsStart:hover{ background-image: linear-gradient(135deg, var(--modern-free) 0 50%, var(--modern-pending) 50% 100%); }
@@ -138,15 +148,25 @@
 [calendarContainer] .cal-program a.abCalendarPendingNightsEnd:hover{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-free) 50% 100%); }
 [calendarContainer] .cal-program a.abCalendarNightsReservedPending:link,
 [calendarContainer] .cal-program a.abCalendarNightsReservedPending:visited,
-[calendarContainer] .cal-program a.abCalendarNightsReservedPending:hover{ background-image: linear-gradient(135deg, var(--modern-booked) 0 50%, var(--modern-pending) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarNightsReservedPending:hover{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, transparent 0 50%, var(--modern-pending) 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .cal-program a.abCalendarNightsPendingReserved:link,
 [calendarContainer] .cal-program a.abCalendarNightsPendingReserved:visited,
-[calendarContainer] .cal-program a.abCalendarNightsPendingReserved:hover{ background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, var(--modern-booked) 50% 100%); }
+[calendarContainer] .cal-program a.abCalendarNightsPendingReserved:hover{ background-color: var(--modern-booked); background-image: linear-gradient(135deg, var(--modern-pending) 0 50%, transparent 50% 100%), repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .cal-program a.abCalendarNightsReservedReserved:link,
-[calendarContainer] .cal-program a.abCalendarNightsReservedReserved:visited{ background-color: var(--modern-booked); }
+[calendarContainer] .cal-program a.abCalendarNightsReservedReserved:visited{ background-color: var(--modern-booked); background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--modern-card) 45%, transparent) 6px 8px); }
 [calendarContainer] .cal-program a.abCalendarNightsPendingPending:link,
 [calendarContainer] .cal-program a.abCalendarNightsPendingPending:visited{ background-color: var(--modern-pending); }
 
 /* scrollbar */
 [calendarContainer] .ps-scrollbar-x-rail{ background: transparent; }
 [calendarContainer] .ps-scrollbar-x{ background: var(--modern-accent); border-radius: 6px; }
+
+/* past days: always shown as "past", whatever their status (same as the calendar) - keep last so it wins over the status rules above */
+[calendarContainer] .cal-program a.abCalendarPast:link,
+[calendarContainer] .cal-program a.abCalendarPast:visited,
+[calendarContainer] .cal-program a.abCalendarPast:active,
+[calendarContainer] .cal-program a.abCalendarPast:hover{
+	background-color: var(--modern-past);
+	background-image: none;
+	color: var(--modern-past-text);
+}
