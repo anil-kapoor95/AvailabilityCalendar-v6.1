@@ -12,19 +12,19 @@
 		{
 			if ((int) $_GET['cid'] > 0)
 			{
-				$style = "width: 600px; height: 450px";
+				$style = "width: 100%; max-width: 630px; height: 450px; margin: 0 auto";
 				if (isset($_GET['view']))
 				{
 					switch ($_GET['view'])
 					{
 						case 3:
-							$style = "max-width: 800px; height: 650px";
+							$style = "max-width: 800px; height: 650px; margin: 0 auto";
 							break;
 						case 6:
-							$style = "max-width: 800px; height: 650px";
+							$style = "max-width: 800px; height: 650px; margin: 0 auto";
 							break;
 						case 12:
-							$style = "max-width: 800px; height: 650px";
+							$style = "max-width: 800px; height: 650px; margin: 0 auto";
 							break;
 					}
 				}
@@ -36,7 +36,7 @@
 				<?php
 			} elseif ($_GET['cid'] == 'all') {
 				?>
-				<div style="max-width: 800px; height: 650px">
+				<div style="max-width: 800px; height: 650px; margin: 0 auto">
 					<link href="index.php?controller=pjFront&action=pjActionLoadAvailabilityCss" type="text/css" rel="stylesheet" />
 					<script type="text/javascript" src="index.php?controller=pjFront&action=pjActionLoadAvailability<?php echo isset($_GET['locale']) && (int) $_GET['locale'] > 0 ? '&locale=' . (int) $_GET['locale'] : NULL; ?>"></script>
 				</div>

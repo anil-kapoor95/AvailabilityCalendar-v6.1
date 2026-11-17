@@ -4,6 +4,7 @@
 		<title>Availability Calendar by PHPJabbers.com</title>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<?php
 		if (isset($_GET['cid']))
 		{
@@ -22,19 +23,19 @@
 	{
 		if ((int) $_GET['cid'] > 0)
 		{
-			$style = "width: 600px; height: 450px; margin: 20px;";
+			$style = "width: 100%; max-width: 630px; height: 450px; margin: 20px auto;";
 			if (isset($_GET['view']))
 			{
 				switch ($_GET['view'])
 				{
 					case 3:
-						$style = "max-width: 800px; height: 650px; margin: 20px;";
+						$style = "max-width: 800px; height: 650px; margin: 20px auto;";
 						break;
 					case 6:
-						$style = "max-width: 800px; height: 650px; margin: 20px;";
+						$style = "max-width: 800px; height: 650px; margin: 20px auto;";
 						break;
 					case 12:
-						$style = "max-width: 800px; height: 650px; margin: 20px;";
+						$style = "max-width: 800px; height: 650px; margin: 20px auto;";
 						break;
 				}
 			}
@@ -45,7 +46,7 @@
 			<?php
 		} elseif ($_GET['cid'] == 'all') {
 			?>
-			<div style="max-width: 800px; height: 650px; margin: 20px;">
+			<div style="max-width: 800px; height: 650px; margin: 20px auto;">
 				<script type="text/javascript" src="<?php echo PJ_INSTALL_FOLDER; ?>index.php?controller=pjFront&action=pjActionLoadAvailability<?php echo isset($_GET['locale']) && (int) $_GET['locale'] > 0 ? '&locale=' . (int) $_GET['locale'] : NULL; ?>"></script>
 			</div>
 			<?php

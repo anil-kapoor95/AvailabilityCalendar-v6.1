@@ -329,6 +329,19 @@
 [calendarContainer].abWrapper13 .abBox13:nth-child(3n+3){
 	margin-right: 0 !important;	
 }
+/* equal-height month boxes: each row of months is a flex row and the table fills its box */
+[calendarContainer].abWrapper13 .abRow{
+	display: flex;
+	align-items: stretch;
+}
+[calendarContainer].abWrapper13 .abBox13{
+	display: flex;
+	height: auto;
+}
+[calendarContainer].abWrapper13 .abBox13 table.abCalendarTable{
+	height: auto;
+	align-self: stretch;
+}
 [calendarContainer] .abMenu{
 	background-color: [background_nav];
 }
@@ -390,6 +403,9 @@
 
 
 @media (max-width: 767px){
+	[calendarContainer].abWrapper13 .abRow{
+		display: block;
+	}
 	[calendarContainer].abWrapper13 .abBox13{
 		width: auto;
 		height: auto;

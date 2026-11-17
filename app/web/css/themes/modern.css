@@ -316,6 +316,20 @@
 	padding: 0;
 }
 [calendarContainer].abWrapper13 .abBox13:nth-child(3n+3){ margin-right: 0 !important; }
+/* equal-height month cards: each row of months is a flex row, the card look sits on the stretching box */
+[calendarContainer].abWrapper13 .abRow{ display: flex; align-items: stretch; }
+[calendarContainer].abWrapper13 .abBox13{
+	display: flex;
+	background: var(--modern-card);
+	border-radius: var(--modern-r);
+	box-shadow: var(--modern-shadow);
+}
+[calendarContainer].abWrapper13 .abBox13 table.abCalendarTable{
+	align-self: flex-start;
+	background: none;
+	border-radius: 0;
+	box-shadow: none;
+}
 [calendarContainer].abWrapper13 td.abCalendarMonth{ font-size: var(--modern-fs); }
 [calendarContainer].abWrapper13 td.abCalendarDate,
 [calendarContainer].abWrapper13 td.abCalendarReserved,
@@ -387,7 +401,29 @@
 	[calendarContainer] td.abCalendarPast{ font-size: calc(var(--modern-fs) * 0.9); }
 	[calendarContainer] table.abCalendarLegend td.abCalendarLabel{ padding-right: 6px; }
 }
+/* very small phones: let the legend bar fit the narrower card (no sideways scroll) */
+@media screen and (max-width: 400px) {
+	[calendarContainer] table.abCalendarLegend{ padding: 10px 6px; border-spacing: 2px 0; }
+	[calendarContainer] table.abCalendarLegend td.abCalendarLabel{ padding-right: 2px; }
+}
+/* tablet / phone: keep the previous / next arrows in the flow, centred above the months (the base style
+   positions them absolutely, which put them on top of the first month card) */
+@media screen and (max-width: 768px) {
+	[calendarContainer] .abMenuNav{
+		position: static;
+		top: auto;
+		left: auto;
+		transform: none;
+		float: none;
+		justify-content: center;
+		width: max-content;
+		margin: 0 auto;
+	}
+	[calendarContainer] .abMenu{ margin-bottom: 14px; }
+	[calendarContainer] .abMenu:empty{ margin: 0; }
+}
 @media (max-width: 767px){
+	[calendarContainer].abWrapper13 .abRow{ display: block; }
 	[calendarContainer].abWrapper13 .abBox13{
 		width: auto;
 		float: none;

@@ -51,7 +51,7 @@ if (!defined("PJ_FONT_PATH")) define("PJ_FONT_PATH", "app/web/fonts/");
 if (!defined("PJ_JS_PATH")) define("PJ_JS_PATH", "app/web/js/");
 if (!defined("PJ_UPLOAD_PATH")) define("PJ_UPLOAD_PATH", "app/web/upload/");
 
-if (!defined("PJ_SCRIPT_VERSION")) define("PJ_SCRIPT_VERSION", "6.1");
+if (!defined("PJ_SCRIPT_VERSION")) define("PJ_SCRIPT_VERSION", "7.0");
 if (!defined("PJ_SCRIPT_ID")) define("PJ_SCRIPT_ID", "4");
 if (!defined("PJ_SCRIPT_BUILD")) define("PJ_SCRIPT_BUILD", "6.0.0");
 if (!defined("PJ_SCRIPT_PREFIX")) define("PJ_SCRIPT_PREFIX", "ac_");
