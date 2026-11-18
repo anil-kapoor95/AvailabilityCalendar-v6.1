@@ -16,6 +16,8 @@ $acModernLabels = array(
 	'modern_need_theme' => 'Select "Modern" in the Design setting above and press Update, then you can customize its colors, font and corners here.',
 	'modern_preview' => 'Live preview',
 	'modern_palettes' => 'Colour palettes',
+	'modern_applied' => 'Applied palette',
+	'modern_custom' => 'Custom colours',
 	'modern_surfaces' => 'Surfaces',
 	'modern_text' => 'Text',
 	'modern_buttons' => 'Buttons',
@@ -113,7 +115,10 @@ $acModernConfig = array(
 #acModernPanel .s h4{margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#777}
 #acModernPanel .pals{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 #acModernPanel .pal{border:1px solid #dfe3e7;background:#fff;border-radius:8px;padding:7px;text-align:left;font-size:12px;font-weight:600;color:#222;cursor:pointer;display:flex;flex-direction:column;gap:6px}
-#acModernPanel .pal.on{border-color:#2a6fa8;box-shadow:0 0 0 2px rgba(42,111,168,.2)}
+#acModernPanel .pal{position:relative}
+#acModernPanel .pal.on{border-color:#2a6fa8;box-shadow:0 0 0 2px rgba(42,111,168,.35)}
+#acModernPanel .pal.on:after{content:"\2713";position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;background:#2a6fa8;color:#fff;font-size:11px;line-height:18px;text-align:center}
+#acModernPanel .curp{margin:-4px 0 10px;font-size:12px;color:#2a6fa8;font-weight:600}
 #acModernPanel .sw{display:flex;height:18px;border-radius:5px;overflow:hidden}
 #acModernPanel .sw i{flex:1}
 #acModernPanel .r{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0}
@@ -211,13 +216,23 @@ if ($acModernActive)
 				st.textContent = cssBlock();
 			} catch (e) {}
 		}
+		function currentPalette() {
+			var keys = ['page', 'card', 'soft', 'line', 'accent', 'heading', 'body', 'muted', 'link', 'btn', 'btn_text', 'btn_hover', 'btn2', 'btn2_text'];
+			for (var pk in C.palettes) {
+				var pc = C.palettes[pk].colors, same = true;
+				keys.forEach(function (k) { if (String(S.colors[k]).toLowerCase() !== String(pc[k]).toLowerCase()) { same = false; } });
+				if (same) { return pk; }
+			}
+			return '';
+		}
 		function build() {
+			var cur = currentPalette();
 			var h = '<div class="h"><strong>' + esc(t.modern_design_title) + '</strong><button type="button" class="x" data-act="close" aria-label="' + esc(t.modern_close) + '">&times;</button></div><div class="b">';
 			h += '<p class="i">' + esc(t.modern_design_info) + '</p>';
-			h += '<div class="s"><h4>' + esc(t.modern_palettes) + '</h4><div class="pals">';
+			h += '<div class="s"><h4>' + esc(t.modern_palettes) + '</h4><div class="curp">' + (cur ? esc(t.modern_applied) + ': ' + esc(C.palettes[cur].name) : esc(t.modern_custom)) + '</div><div class="pals">';
 			for (var pk in C.palettes) {
 				var c = C.palettes[pk].colors;
-				h += '<button type="button" class="pal' + (S.palette === pk ? ' on' : '') + '" data-pal="' + pk + '"><span class="sw"><i style="background:' + c.page + '"></i><i style="background:' + c.soft + '"></i><i style="background:' + c.accent + '"></i><i style="background:' + c.btn + '"></i></span>' + esc(C.palettes[pk].name) + '</button>';
+				h += '<button type="button" class="pal' + (cur === pk ? ' on' : '') + '" data-pal="' + pk + '"><span class="sw"><i style="background:' + c.page + '"></i><i style="background:' + c.soft + '"></i><i style="background:' + c.accent + '"></i><i style="background:' + c.btn + '"></i></span>' + esc(C.palettes[pk].name) + '</button>';
 			}
 			h += '</div></div>';
 			groups.forEach(function (g) {
@@ -286,6 +301,7 @@ if ($acModernActive)
 				S.colors[e.target.dataset.key] = e.target.value;
 				S.palette = '';
 				[].forEach.call(panel.querySelectorAll('.pal'), function (x) { x.classList.remove('on'); });
+				var cp = panel.querySelector('.curp'); if (cp) { cp.textContent = t.modern_custom; }
 				applyLive();
 			}
 		});

@@ -349,10 +349,6 @@ class pjAdminCalendars extends pjAdmin
 			{
 				$this->appendCss('index.php?controller=pjAdminCalendars&action=pjActionLoadCss&cid=' . $calendar['id'], PJ_INSTALL_URL, true);
 			}
-			if ($this->getModernOptions() !== NULL)
-			{
-				$this->appendCss('index.php?controller=pjAdminCalendars&action=pjActionLoadModernCss', PJ_INSTALL_URL, true);
-			}
 			$this->appendJs('perfect-scrollbar.jquery.js', PJ_THIRD_PARTY_PATH . 'perfect_scrollbar/js/');
 			$this->appendCss('perfect-scrollbar.min.css', PJ_THIRD_PARTY_PATH . 'perfect_scrollbar/css/');
 			$this->appendJs('pjAdminCalendars.js');
@@ -421,19 +417,9 @@ class pjAdminCalendars extends pjAdmin
 		$option_arr = $this->getModernOptions();
 		if ($option_arr !== NULL)
 		{
-			# every calendar row (and its name) uses the appearance of its own calendar
-			$row_arr = array();
-			$pjOptionModel = pjOptionModel::factory();
-			foreach (pjCalendarModel::factory()->findAll()->getData() as $calendar)
-			{
-				$row_arr[$calendar['id']] = $pjOptionModel->reset()->getPairs($calendar['id']);
-			}
-			echo pjAppController::getModernFontsImportAll(array_merge(array($option_arr), $row_arr));
+			# the whole listing (container, calendar names, day cells, hover) follows the admin Modern theme (--modern-* variables)
+			echo pjAppController::getModernFontsImportAll(array($option_arr));
 			echo pjAppController::getModernCss($option_arr, '.cal-container.modern-admin', 'modern.admin.css');
-			foreach ($row_arr as $cid => $row_options)
-			{
-				echo pjAppController::getModernRowCss($row_options, '.cal-container.modern-admin .cal-id-' . (int) $cid . ', .cal-container.modern-admin .cal-t-' . (int) $cid);
-			}
 		}
 		exit;
 	}

@@ -52,15 +52,8 @@
 [calendarContainer] .cal-program{
 	border-bottom: 1px solid var(--modern-line);
 }
-[calendarContainer] .cal-title{ color: var(--modern-heading); font-family: var(--modern-font-body); font-weight: 600; }
-[calendarContainer] .cal-title a:link,
-[calendarContainer] .cal-title a:visited,
-[calendarContainer] .cal-title a:active{
-	color: var(--modern-link);
-	font-weight: 600;
-	text-decoration: none;
-}
-[calendarContainer] .cal-title a:hover{ text-decoration: underline; }
+/* calendar names: as originally - plain 12px Arial links in the admin link colour, same for every calendar */
+[calendarContainer] .cal-title{ color: #595a5c; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-weight: normal; }
 
 /* header: month name with round-ish prev/next links, then the day chips */
 [calendarContainer] .cal-head-row span{

@@ -176,3 +176,6 @@
 @media (prefers-reduced-motion: reduce){
 	[calendarContainer] .abLoader .abLoaderInner:after{ -webkit-animation-duration: 2.4s; animation-duration: 2.4s; }
 }
+
+/* outer container: no coloured background (fits any client website) */
+[calendarContainer]{ background: transparent; }

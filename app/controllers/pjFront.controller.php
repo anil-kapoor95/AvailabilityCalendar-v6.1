@@ -176,9 +176,16 @@ class pjFront extends pjAppController
 		if (!is_null($modern_opts))
 		{
 			echo pjAppController::getModernCss($modern_opts, '.abAvailability', 'modern.availability.css');
-			# every calendar row (and its name) uses the appearance of its own calendar
+			# Modern rows follow the global Modern customization (the container variables above); only Classic rows keep their own colours
 			foreach ($row_arr as $cid => $row_options)
 			{
+				# the calendar name takes the colour chosen in that calendar's appearance
+				$name_sel = '.abAvailability .abCal-title.abCal-t-' . (int) $cid;
+				echo $name_sel . ', ' . $name_sel . ' a, ' . $name_sel . ' a.abCal-link{color:' . pjAppController::getRowNameColor($row_options) . ';}' . "\n";
+				if (isset($row_options['o_theme']) && $row_options['o_theme'] == 'modern')
+				{
+					continue;
+				}
 				echo pjAppController::getModernRowCss($row_options, '.abAvailability .abCal-id-' . (int) $cid . ', .abAvailability .abCal-t-' . (int) $cid);
 			}
 			exit;

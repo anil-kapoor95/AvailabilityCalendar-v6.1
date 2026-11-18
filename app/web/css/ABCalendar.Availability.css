@@ -229,3 +229,40 @@ a.abCal-next-month:hover{
 		width: 3.225806451612903%;
 	}
 }
+/* Availability table: month navigation as rounded pills (Prev month / month name / Next month), kept in view while the days scroll */
+.abAvailability .abCal-dates{ container-type: inline-size; }
+.abAvailability .abCal-head .abCal-head-row:first-child{ overflow: visible; }
+.abAvailability .abCal-head .abCal-head-row:first-child span{
+	position: sticky;
+	left: 0;
+	float: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	width: 100cqw !important;
+	min-width: 0 !important;
+	height: 29px;
+	line-height: 18px;
+	background: transparent;
+	background-image: none;
+	color: #111827;
+	font-size: 14px;
+	font-weight: bold;
+}
+.abAvailability .abCal-head .abCal-head-row a.abCal-prev-month,
+.abAvailability .abCal-head .abCal-head-row a.abCal-next-month{
+	float: none;
+	margin: 0;
+	padding: 3px 14px;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 999px;
+	color: #374151;
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 18px;
+	text-decoration: none !important;
+}
+.abAvailability .abCal-head .abCal-head-row a.abCal-prev-month:hover,
+.abAvailability .abCal-head .abCal-head-row a.abCal-next-month:hover{ border-color: #9ca3af; color: #111827; }

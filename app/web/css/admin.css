@@ -953,3 +953,47 @@ img.ui-datepicker-trigger {
 	padding: 4px 15px;
 	position: relative;
 }
+/* Availability overview: month navigation as rounded pills (Prev month / month name / Next month), kept in view while the days scroll */
+.cal-container .cal-dates{ container-type: inline-size; }
+.cal-container .cal-head-row:first-child{ overflow: visible; }
+.cal-container .cal-head-row:first-child span{
+	position: sticky;
+	left: 0;
+	float: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	width: 100cqw !important;
+	height: 31px;
+	line-height: 18px;
+	margin: 0;
+	background: transparent;
+	border: 0;
+	color: #111827;
+	font-size: 14px;
+	font-weight: bold;
+}
+.cal-container .cal-prev,
+.cal-container .cal-next{
+	float: none;
+	margin: 0;
+	padding: 4px 14px;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 999px;
+	color: #374151;
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 18px;
+	text-decoration: none;
+}
+.cal-container .cal-prev:before{ content: "\2039\00a0"; }
+.cal-container .cal-next:after{ content: "\00a0\203A"; }
+.cal-container .cal-prev:hover,
+.cal-container .cal-next:hover{ border-color: #9ca3af; color: #111827; text-decoration: none; }
+
+/* Availability overview: rounded day chips and day cells */
+.cal-container .cal-head-row + .cal-head-row span,
+.cal-container .cal-program a,
+.cal-container .cal-program span{ border-radius: 8px; }

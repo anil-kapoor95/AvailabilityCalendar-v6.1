@@ -249,6 +249,27 @@ class pjAppController extends pjController
 	}
 
 	/**
+	 * Colour of a calendar's name in the all-calendars tables: the main colour chosen in that calendar's appearance
+	 * (Modern: the link colour of its palette; Classic: its month bar colour).
+	 */
+	public static function getRowNameColor($option_arr)
+	{
+		$defaults = self::getModernDefaults();
+		$color = $defaults['colors']['link'];
+		if (isset($option_arr['o_theme']) && $option_arr['o_theme'] == 'modern')
+		{
+			$settings = self::getModernSettings(isset($option_arr['o_modern_colors']) ? $option_arr['o_modern_colors'] : '');
+			if (isset($settings['colors']['link']))
+			{
+				$color = $settings['colors']['link'];
+			}
+		} elseif (isset($option_arr['o_background_month']) && is_string($option_arr['o_background_month']) && preg_match('/^#[0-9a-fA-F]{6}$/', $option_arr['o_background_month'])) {
+			$color = strtolower($option_arr['o_background_month']);
+		}
+		return $color;
+	}
+
+	/**
 	 * Modern: the "--modern-*" block of ONE calendar row of the all-calendars tables (admin overview, front availability).
 	 * A Modern calendar uses its own palette, font, radius and shadow; a Classic calendar uses its own classic colours (square cells).
 	 */
