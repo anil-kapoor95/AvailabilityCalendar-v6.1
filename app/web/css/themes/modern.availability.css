@@ -4,9 +4,9 @@
    Same --modern-* variables as modern.css. "[calendarContainer]" is replaced with .abAvailability
    ========================================================================== */
 [calendarContainer]{
-	--modern-page:#fbf0ea; --modern-card:#ffffff; --modern-soft:#f4dccf; --modern-line:#f1e0d8; --modern-accent:#e8836b;
-	--modern-heading:#4a2a22; --modern-body:#674c45; --modern-muted:#7d6660; --modern-link:#ae3c22;
-	--modern-btn:#c94e33; --modern-btn-text:#ffffff; --modern-btn-hover:#b73f24; --modern-btn2:#ffffff; --modern-btn2-text:#ae3c22;
+	--modern-page:#edf4fa; --modern-card:#ffffff; --modern-soft:#d3e5f4; --modern-line:#e0ecf6; --modern-accent:#4f93c9;
+	--modern-heading:#1b3550; --modern-body:#3f556c; --modern-muted:#5b6e81; --modern-link:#245f93;
+	--modern-btn:#2a6fa8; --modern-btn-text:#ffffff; --modern-btn-hover:#1f5a8c; --modern-btn2:#ffffff; --modern-btn2-text:#245f93;
 	--modern-free:#dcefe6; --modern-free-text:#256a50;
 	--modern-booked:#f3cfc4; --modern-booked-text:#a53a22;
 	--modern-pending:#fbe5b5; --modern-pending-text:#8a5a00;

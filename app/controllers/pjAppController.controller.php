@@ -41,7 +41,7 @@ class pjAppController extends pjController
 
 	/**
 	 * Modern: default design tokens (must match app/web/css/themes/modern.css).
-	 * Colour tokens are the keys of the "coral" palette plus the availability status colours.
+	 * Colour tokens are the keys of the "ocean" palette plus the availability status colours.
 	 */
 	public static function getModernPalettes()
 	{
@@ -100,8 +100,8 @@ class pjAppController extends pjController
 	{
 		$p = self::getModernPalettes();
 		return array(
-			'palette' => 'coral',
-			'colors' => array_merge($p['coral'][1], self::getModernStatus()),
+			'palette' => 'ocean',
+			'colors' => array_merge($p['ocean'][1], self::getModernStatus()),
 			'font' => 'poppins',
 			'fs' => 14,
 			'radius' => 'soft',
