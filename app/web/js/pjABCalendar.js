@@ -59,6 +59,15 @@
 			var mid,
 				self = this;
 			this.opts = opts;
+			// The language the visitor chose earlier (kept in the browser; not used when the install code fixes the language)
+			if (!this.opts.locale && !this.opts.lang) {
+				try {
+					var storedLang = parseInt(window.localStorage.getItem("abCalendarLang"), 10);
+					if (storedLang > 0) {
+						this.opts.lang = storedLang;
+					}
+				} catch (e) {}
+			}
 			this.$abWrapper = pjQ.$("#abWrapper_" + this.opts.cid);
 			this.$abCalendar = pjQ.$("#abCalendar_" + this.opts.cid);
 			this.$abLoader = pjQ.$("#abLoader_" + this.opts.cid);
@@ -84,11 +93,14 @@
 				}
 				var $this = pjQ.$(this);
 				$this.addClass("abLocaleFocus").parent().parent().find("a.abSelectorLocale").not(this).removeClass("abLocaleFocus");
+				self.opts.lang = parseInt($this.data("id"), 10);
+				try { window.localStorage.setItem("abCalendarLang", String(self.opts.lang)); } catch (e) {}
 				this.message_type = 'calendar';
 				self.loadHandler.call(self);
 				pjQ.$.get([self.opts.folder, "index.php?controller=pjFront&action=pjActionLocale"].join(""), {
 					"cid": self.opts.cid,
 					"locale_id": $this.data("id"),
+					"lang": $this.data("id"),
 					"session_id": self.opts.session_id
 				}).done(function (data) {
 					var year = self.year,
@@ -107,7 +119,7 @@
 				}
 				self.message_type = 'calendars';
 				self.loadHandler.call(self);
-				pjQ.$.get([self.opts.folder, "index.php?controller=pjFront&action=pjActionLoadAvail&index=", self.opts.index, "&locale=", self.opts.locale, "&session_id=", self.opts.session_id].join("")).done(function (data) {
+				pjQ.$.get([self.opts.folder, "index.php?controller=pjFront&action=pjActionLoadAvail&index=", self.opts.index, "&locale=", self.opts.locale, "&lang=", (self.opts.lang || ""), "&session_id=", self.opts.session_id].join("")).done(function (data) {
 					var template = data.template;
 					self.$abWrapper.replaceWith(template.replace('{MSG}', self.opts.error_msg.calendars));
 					if (ABCalendarAvailability !== undefined) {
@@ -117,6 +129,7 @@
 							folder: self.opts.folder,
 							index: self.opts.index,
 							locale: self.opts.locale,
+							lang: self.opts.lang,
 							year: self.year,
 							month: self.month
 						};
@@ -173,6 +186,7 @@
 				"year": year,
 				"month": month,
 				"locale": self.opts.locale,
+				"lang": self.opts.lang || "",
 				"index": self.opts.index,
 				"session_id": self.opts.session_id
 			}).done(function (data) {

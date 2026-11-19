@@ -36,13 +36,31 @@ if ((
 			if (isset($tpl['locale_arr']) && is_array($tpl['locale_arr']) && !empty($tpl['locale_arr']) && count($tpl['locale_arr']) > 1)
 			{
 				?>
-				<ul class="abMenuLocale abMenuList"><?php
+				<?php
+				$ab_lang_cur = NULL;
 				foreach ($tpl['locale_arr'] as $locale)
 				{
-					?><li><a href="#" class="abSelectorLocale<?php echo $controller->pjActionGetLocale() == $locale['id'] ? ' abLocaleFocus' : NULL; ?>" data-id="<?php echo $locale['id']; ?>" title="<?php echo pjSanitize::html($locale['title']); ?>"><img src="<?php echo PJ_INSTALL_URL . 'core/framework/libs/pj/img/flags/' . $locale['file'] ?>" alt="<?php echo pjSanitize::html($locale['title']); ?>" /></a></li><?php
+					if ((int) $controller->pjActionGetLocale() === (int) $locale['id']) { $ab_lang_cur = $locale; break; }
 				}
+				if (!$ab_lang_cur) { $ab_lang_cur = $tpl['locale_arr'][0]; }
+				$ab_lang_code = strtoupper(preg_replace('/^.*[-_]/', '', (string) $ab_lang_cur['language_iso']));
 				?>
-				</ul>
+				<details class="abLang">
+					<summary class="abLangCurrent" title="<?php echo pjSanitize::html($ab_lang_cur['title']); ?>">
+						<img src="<?php echo PJ_INSTALL_URL . 'core/framework/libs/pj/img/flags/' . $ab_lang_cur['file'] ?>" alt="" />
+						<span class="abLangCode"><?php echo pjSanitize::html($ab_lang_code); ?></span>
+						<span class="abLangCaret" aria-hidden="true"></span>
+					</summary>
+					<ul class="abLangMenu">
+						<?php
+						foreach ($tpl['locale_arr'] as $locale)
+						{
+							$is_cur = (int) $locale['id'] === (int) $ab_lang_cur['id'];
+							?><li<?php echo $is_cur ? ' class="active"' : NULL; ?>><a href="#" class="abSelectorLocale<?php echo $is_cur ? ' abLocaleFocus' : NULL; ?>" data-id="<?php echo $locale['id']; ?>" title="<?php echo pjSanitize::html($locale['title']); ?>"><img src="<?php echo PJ_INSTALL_URL . 'core/framework/libs/pj/img/flags/' . $locale['file'] ?>" alt="" /><span><?php echo pjSanitize::html($locale['title']); ?></span></a></li><?php
+						}
+						?>
+					</ul>
+				</details>
 				<?php
 			}
 		}

@@ -23,6 +23,27 @@
 	
 	var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor),
 
+	// The language the visitor chose (a locale ID) is kept in the browser and sent with every request, so it
+	// still applies when the PHP session cookie is not sent (calendar embedded in a page of another website).
+	// Not used when the install code fixes the language (locale).
+	langStore = function (id) {
+		try { window.localStorage.setItem("abCalendarLang", String(id)); } catch (e) {}
+	},
+	langInit = function (opts) {
+		if (opts.locale) {
+			return null;
+		}
+		if (opts.lang) {
+			return opts.lang;
+		}
+		try {
+			var v = parseInt(window.localStorage.getItem("abCalendarLang"), 10);
+			return v > 0 ? v : null;
+		} catch (e) {
+			return null;
+		}
+	},
+
 	loadCssHack = function(url, callback){
 		var link = document.createElement('link');
 		link.type = 'text/css';
@@ -99,6 +120,7 @@
 		init: function (opts) {
 			var self = this;
 			this.opts = opts;
+			this.opts.lang = langInit(this.opts);
 			this.$abAvailability = pjQ.$("#abAvailability_" + this.opts.index);
 			
 			this.getAvailability.call(this, this.opts.year, this.opts.month);
@@ -111,7 +133,7 @@
 					load_msg = pjQ.$('.abErrorMessage').data('msg');
 				function loadCalendar() {
 					loadRemote([self.opts.folder, "index.php?controller=pjFront&action=pjActionLoadCss&cid=", cid, "&session_id=", self.opts.session_id].join(""), "css");
-					pjQ.$.get([self.opts.folder, "index.php?controller=pjFront&action=pjActionLoadCalendar&cid=", cid, "&locale=", self.opts.locale, "&session_id=", self.opts.session_id].join("")).done(function (data) {
+					pjQ.$.get([self.opts.folder, "index.php?controller=pjFront&action=pjActionLoadCalendar&cid=", cid, "&locale=", self.opts.locale, "&lang=", (self.opts.lang || ""), "&session_id=", self.opts.session_id].join("")).done(function (data) {
 						self.$abAvailability.replaceWith(data.template);
 						if (ABCalendar !== undefined) {
 							var abName = "ABCalendar_" + cid,
@@ -121,6 +143,7 @@
 								cid: cid,
 								view: 1,
 								locale: self.opts.locale,
+								lang: self.opts.lang,
 								index: self.opts.index,
 								year: self.year,
 								month: self.month,
@@ -158,8 +181,11 @@
 				var $this = pjQ.$(this);
 				$this.addClass("abLocaleFocus").parent().parent().find("a.abSelectorLocale").not(this).removeClass("abLocaleFocus");
 				
+				self.opts.lang = parseInt($this.data("id"), 10);
+				langStore(self.opts.lang);
 				pjQ.$.get([self.opts.folder, "index.php?controller=pjFront&action=pjActionLocale"].join(""), {
 					"locale_id": $this.data("id"),
+					"lang": self.opts.lang,
 					"session_id": self.opts.session_id
 				}).done(function (data) {
 					self.getAvailability.call(self);
@@ -179,6 +205,7 @@
 				"year": this.year,
 				"month": this.month,
 				"locale": this.opts.locale,
+				"lang": this.opts.lang || "",
 				"session_id": self.opts.session_id
 			}).done(function (data) {
 				self.$abAvailability.html(data);

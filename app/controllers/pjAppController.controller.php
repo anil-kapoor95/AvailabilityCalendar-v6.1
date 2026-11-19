@@ -359,9 +359,13 @@ class pjAppController extends pjController
 				|| !isset($_SESSION[$this->defaultFieldsIndex])
 				|| (isset($this->option_arr) && $_SESSION[$this->defaultFieldsIndex] != $this->option_arr['o_fields_index'])
 				|| !isset($_SESSION[$fields])
-				|| empty($_SESSION[$fields]))
+				|| empty($_SESSION[$fields])
+				|| !isset($_SESSION[$this->defaultLocale . '_fields'])
+				|| (int) $_SESSION[$this->defaultLocale . '_fields'] !== (int) $locale_id)
 		{
 			pjAppController::setFields($locale_id);
+			# The cached labels belong to this language
+			$_SESSION[$this->defaultLocale . '_fields'] = (int) $locale_id;
 	
 			# Update session
 			if ($registry->is('fields'))
@@ -530,6 +534,9 @@ class pjAppController extends pjController
 				->findAll()
 				->getDataPair('key', 'content');
 		}
+		# A label that has no text in this language falls back to the default language, and a label that is
+		# still the untranslated English copy gets the built-in translation (if there is one)
+		$fields = self::fillMissingFields($fields, $locale);
 		$registry = pjRegistry::getInstance();
 		$tmp = array();
 		if ($registry->is('fields'))
@@ -552,6 +559,99 @@ class pjAppController extends pjController
 		require PJ_CONFIG_PATH . 'settings.inc.php';
 		$fields = array_merge($tmp, $fields, $settings, $arrays);
 		$registry->set('fields', $fields);
+    }
+
+    /**
+     * Front-end text of the built-in translations as field key => text, for a language code (ru-RU or ru).
+     * Empty array when the language has no built-in translation.
+     */
+    public static function getBuiltInFields($iso)
+    {
+    	# Built-in translations are optional and OFF by default: labels change only when edited under Options » Languages.
+    	# To switch them on, add define('PJ_FRONT_BUILTIN_TRANSLATIONS', true); to app/config/config.inc.php.
+    	if (!defined('PJ_FRONT_BUILTIN_TRANSLATIONS') || !PJ_FRONT_BUILTIN_TRANSLATIONS || !is_file(PJ_CONFIG_PATH . 'front_translations.inc.php'))
+    	{
+    		return array();
+    	}
+    	static $dict = NULL;
+    	if (is_null($dict))
+    	{
+    		$dict = include PJ_CONFIG_PATH . 'front_translations.inc.php';
+    	}
+    	$code = strtolower(substr((string) $iso, 0, 2));
+    	if (!isset($dict[$code]))
+    	{
+    		return array();
+    	}
+    	list($labels, $months, $short, $days, $initials) = $dict[$code];
+    	$keys = array('front_back_to_calendars', 'front_prev_month', 'front_next_month', 'front_availability_note', 'front_err_ARRAY_calendars', 'front_err_ARRAY_calendar', 'booking_statuses_ARRAY_available', 'booking_statuses_ARRAY_pending', 'booking_statuses_ARRAY_booked', 'legend_past');
+    	$out = array();
+    	foreach ($keys as $i => $k)
+    	{
+    		$out[$k] = $labels[$i];
+    	}
+    	# the legend under the calendar uses its own keys for the same words
+    	$out['legend_available'] = $labels[6];
+    	$out['legend_pending'] = $labels[7];
+    	$out['legend_booked'] = $labels[8];
+    	$out['front_calendar_message'] = $labels[3];
+    	foreach ($months as $i => $v)
+    	{
+    		$out['months_ARRAY_' . ($i + 1)] = $v;
+    		$out['short_months_ARRAY_' . ($i + 1)] = $short[$i];
+    	}
+    	foreach ($days as $i => $v)
+    	{
+    		$out['days_ARRAY_' . $i] = $v;
+    		$out['day_names_ARRAY_' . $i] = $initials[$i];
+    	}
+    	return $out;
+    }
+
+    /**
+     * Empty labels take the default language's text; labels still equal to the English text take the
+     * built-in translation of the language.
+     */
+    public static function fillMissingFields($fields, $locale)
+    {
+    	$locales = pjLocaleModel::factory()->findAll()->getData();
+    	$iso = '';
+    	$default_id = 0;
+    	foreach ($locales as $l)
+    	{
+    		if ((int) $l['id'] === (int) $locale) { $iso = $l['language_iso']; }
+    		if ((int) $l['is_default'] === 1) { $default_id = (int) $l['id']; }
+    	}
+    	if ($default_id > 0 && $default_id !== (int) $locale)
+    	{
+    		$base = pjMultiLangModel::factory()
+    			->select('t1.content, t2.key')
+    			->join('pjField', "t2.id=t1.foreign_id", 'inner')
+    			->where('t1.locale', $default_id)
+    			->where('t1.model', 'pjField')
+    			->where('t1.field', 'title')
+    			->findAll()
+    			->getDataPair('key', 'content');
+    		foreach ($base as $k => $v)
+    		{
+    			if (!isset($fields[$k]) || trim((string) $fields[$k]) === '')
+    			{
+    				$fields[$k] = $v;
+    			}
+    		}
+    	}
+    	if ($iso !== '' && strtolower(substr($iso, 0, 2)) !== 'en')
+    	{
+    		$english = self::getBuiltInFields('en');
+    		foreach (self::getBuiltInFields($iso) as $k => $v)
+    		{
+    			if (!isset($fields[$k]) || trim((string) $fields[$k]) === '' || (isset($english[$k]) && $fields[$k] === $english[$k]))
+    			{
+    				$fields[$k] = $v;
+    			}
+    		}
+    	}
+    	return $fields;
     }
 
     public static function jsonDecode($str)

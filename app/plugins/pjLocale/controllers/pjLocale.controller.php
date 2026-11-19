@@ -867,6 +867,20 @@ class pjLocale extends pjLocaleAppController
 			'locale' => (int) $locale_id
 		));
 		
+		# The new language starts as a copy of the default one: give the front-end text (labels, month names,
+		# weekdays) that the script has a built-in translation for its own language
+		if (method_exists('pjAppController', 'getBuiltInFields') && strtolower(substr((string) $iso, 0, 2)) !== 'en')
+		{
+			$sql = sprintf("UPDATE `%s` AS t1 INNER JOIN `%s` AS t2 ON t2.id = t1.foreign_id
+				SET t1.content = :content
+				WHERE t1.model = 'pjField' AND t1.field = 'title' AND t1.locale = :locale AND t2.`key` = :key",
+				$pjMultiLangModel->getTable(), pjFieldModel::factory()->getTable());
+			foreach (pjAppController::getBuiltInFields($iso) as $key => $content)
+			{
+				$pjMultiLangModel->prepare($sql)->exec(array('content' => $content, 'locale' => (int) $insert_id, 'key' => $key));
+			}
+		}
+		
 		return array('status' => 'OK', 'code' => 200, 'text' => 'Locale has been added.', 'id' => $insert_id);
 	}
 	

@@ -52,6 +52,17 @@ class pjFront extends pjAppController
 			$_SESSION[$this->defaultLocale] = (int) $_GET['locale'];
 		}
 		
+		# The language the visitor chose is sent with every request (lang=<locale ID>): the PHP session
+		# cannot be relied on when the calendar is embedded in a page of another website.
+		if (isset($_GET['lang']) && is_scalar($_GET['lang']) && (int) $_GET['lang'] > 0 && empty($_GET['locale']))
+		{
+			$lang_arr = pjLocaleModel::factory()->where('t1.id', (int) $_GET['lang'])->limit(1)->findAll()->getData();
+			if (count($lang_arr) === 1)
+			{
+				$_SESSION[$this->defaultLocale] = (int) $_GET['lang'];
+			}
+		}
+		
 		if (!in_array($_GET['action'], array('pjActionLoadCss', 'pjActionLoadAvailabilityCss')))
 		{
 			if(isset($_GET['locale']) && (int) $_GET['locale'] > 0 && ($_GET['action'] == 'pjActionLoad' || $_GET['action'] == 'pjActionLoadAvailability'))
@@ -493,12 +504,20 @@ class pjFront extends pjAppController
 		if ($this->isXHR())
 		{
 			$locale = isset($_GET['locale']) && !empty($_GET['locale']) ? (int) $_GET['locale'] : $this->pjActionGetLocale();
+			$default_locale = 0;
+			$default_arr = pjLocaleModel::factory()->where('t1.is_default', 1)->limit(1)->findAll()->getData();
+			if (count($default_arr) === 1)
+			{
+				$default_locale = (int) $default_arr[0]['id'];
+			}
 				
+			# The calendar name of the language; a calendar that has no name in it shows its default-language name
 			$pjCalendarModel = pjCalendarModel::factory()
-				->select("t1.*, t2.content AS `title`, t3.value AS `o_bookings_per_day`, t4.value AS `o_timezone`")
+				->select("t1.*, IF(t2.content IS NULL OR t2.content = '', t5.content, t2.content) AS `title`, t3.value AS `o_bookings_per_day`, t4.value AS `o_timezone`")
 				->join('pjMultiLang', "t2.model='pjCalendar' AND t2.foreign_id=t1.id AND t2.field='name' AND t2.locale='$locale'", 'left outer')
 				->join('pjOption', "t3.foreign_id=t1.id AND t3.key='o_bookings_per_day'", 'left outer')
-				->join('pjOption', "t4.foreign_id=t1.id AND t4.key='o_timezone'", 'left outer');
+				->join('pjOption', "t4.foreign_id=t1.id AND t4.key='o_timezone'", 'left outer')
+				->join('pjMultiLang', "t5.model='pjCalendar' AND t5.foreign_id=t1.id AND t5.field='name' AND t5.locale='$default_locale'", 'left outer');
 			$pjDateModel = pjDateModel::factory();
 			$pjOptionModel = pjOptionModel::factory();
 			$arr = $pjCalendarModel->orderBy('t1.id ASC')->findAll()->getData();

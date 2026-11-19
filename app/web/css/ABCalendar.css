@@ -603,3 +603,19 @@ html, body{
 	    transform: translateX(-50%) translateY(-50%);
 	}
 }
+/* Language switcher: flag + code button with a dropdown (same pattern as the Blog Script) */
+.abMenu .abLang{ float: right; position: relative; margin: 0 2px 0 0; }
+.abMenu .abLang > summary{ list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid rgba(0,0,0,.18); border-radius: 8px; background: #fff; color: #333; font-weight: 700; font-size: 14px; line-height: 20px; white-space: nowrap; }
+.abMenu .abLang > summary::-webkit-details-marker{ display: none; }
+.abMenu .abLang > summary::marker{ content: ""; }
+.abMenu .abLang > summary img{ width: 20px; height: auto; display: block; border: none; }
+.abMenu .abLang .abLangCaret{ width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; }
+.abMenu .abLang .abLangMenu{ position: absolute; right: 0; top: 100%; z-index: 1000; min-width: 200px; max-height: 70vh; overflow-y: auto; margin: 6px 0 0; padding: 6px 0; list-style: none; background: #fff; border: 1px solid rgba(0,0,0,.12); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+.abMenu .abLang .abLangMenu li{ margin: 0; padding: 0; height: auto; list-style: none; float: none; }
+.abMenu .abLang .abLangMenu a{ display: flex; align-items: center; gap: 10px; width: auto; height: auto; padding: 8px 16px; border: none; background: transparent; color: #333; font-size: 15px; font-weight: 400; text-decoration: none; white-space: nowrap; }
+.abMenu .abLang .abLangMenu a:hover, .abMenu .abLang .abLangMenu a:focus{ background: #f1f4f8; color: #111; text-decoration: none; font-weight: 400; border: none; }
+.abMenu .abLang .abLangMenu li.active a{ font-weight: 700; }
+.abMenu .abLang .abLangMenu img{ width: 20px; height: auto; display: block; border: none; }
+
+/* let the language dropdown overflow the menu bar */
+.abWrapper .abMenu:has(details.abLang), .abAvailability .abMenu:has(details.abLang){ overflow: visible; height: auto; min-height: 33px; }

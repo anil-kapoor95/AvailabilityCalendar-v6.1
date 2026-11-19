@@ -40,6 +40,10 @@
 	background: transparent;
 	margin: 0 0 10px;
 }
+[calendarContainer] .abMenuLocale li{
+	height: auto;
+	padding: 0 0 0 6px;
+}
 [calendarContainer] .abMenuLocale a{
 	border: 2px solid transparent;
 	border-radius: 6px;
